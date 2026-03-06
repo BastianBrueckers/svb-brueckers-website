@@ -81,18 +81,10 @@ img {
   margin-right: 40px;
 }
 
-.logo-icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+.logo-img {
   width: 36px;
   height: 36px;
-  background: var(--accent);
-  border-radius: 8px;
-  font-family: Georgia, serif;
-  font-size: 14px;
-  font-weight: 700;
-  color: white;
+  border-radius: 4px;
 }
 
 .logo-text {
@@ -142,7 +134,7 @@ img {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: url('https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=1400&q=80') center/cover no-repeat;
+  background: url('../images/blauer-kotfluegel-unfallschaden.webp') center/cover no-repeat;
   color: white;
   text-align: center;
   padding: 120px 20px 80px;
