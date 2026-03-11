@@ -65,9 +65,10 @@
 </script>
 
 
-<!-- HTTPS Redirect -->
+<!-- HTTPS Redirect (skip local preview) -->
 <script>
-if (location.protocol !== "https:") {
+const isLocalPreviewHost = ["localhost", "127.0.0.1", "::1"].includes(location.hostname);
+if (location.protocol !== "https:" && !isLocalPreviewHost) {
   location.replace("https://" + location.host + location.pathname + location.search + location.hash);
 }
 </script>
@@ -96,6 +97,18 @@ if (location.protocol !== "https:") {
       </nav>
     </div>
   </header>
+
+  <!-- Eröffnungsaktion -->
+  <section class="promo-banner" aria-label="Eröffnungsaktion">
+    <div class="container promo-banner-inner">
+      <span class="promo-label">Eröffnungsaktion</span>
+      <p>
+        Als Dankeschön für Ihr Vertrauen erhalten Sie bei Beauftragung eines Schadengutachtens
+        <br><br>
+        einen Tankgutschein im Wert von 30&nbsp;€.
+      </p>
+    </div>
+  </section>
 
   <!-- Hero -->
   <section class="hero">
