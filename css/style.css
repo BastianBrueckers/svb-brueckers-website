@@ -193,6 +193,31 @@ img {
   background: linear-gradient(180deg, rgba(26,54,93,0.85) 0%, rgba(26,54,93,0.7) 100%);
 }
 
+.hero-cost-badge {
+  position: absolute;
+  top: 48px;
+  right: clamp(18px, 4.5vw, 72px);
+  z-index: 1;
+  width: clamp(180px, 20vw, 245px);
+  aspect-ratio: 1 / 1;
+  display: grid;
+  place-content: center;
+  gap: 1px;
+  text-align: center;
+  color: #fff;
+  font-weight: 700;
+  line-height: 1.2;
+  font-size: clamp(1.2rem, 1.8vw, 1.75rem);
+  background: linear-gradient(160deg, #ef8f4d 0%, var(--accent) 100%);
+  box-shadow: 0 16px 30px rgba(15, 23, 42, 0.26), inset 0 0 0 2px rgba(255,255,255,0.22);
+  clip-path: polygon(50% 0%, 57% 14%, 72% 4%, 70% 20%, 86% 14%, 80% 30%, 96% 32%, 84% 43%, 100% 50%, 84% 57%, 96% 68%, 80% 70%, 86% 86%, 70% 80%, 72% 96%, 57% 86%, 50% 100%, 43% 86%, 28% 96%, 30% 80%, 14% 86%, 20% 70%, 4% 68%, 16% 57%, 0% 50%, 16% 43%, 4% 32%, 20% 30%, 14% 14%, 30% 20%, 28% 4%, 43% 14%);
+  transform: rotate(-6deg);
+}
+
+.hero-cost-badge span {
+  display: block;
+}
+
 .hero-content {
   position: relative;
   z-index: 1;
@@ -999,7 +1024,7 @@ img {
   /* Hero Mobile */
   .hero {
     min-height: 80vh;
-    padding: 100px 20px 60px;
+    padding: 92px 20px 150px;
   }
 
   .hero h1 {
@@ -1011,7 +1036,16 @@ img {
   }
 
   .hero-content {
-    transform: translateY(-16px);
+    transform: translateY(-4px);
+  }
+
+  .hero-cost-badge {
+    top: auto;
+    bottom: 24px;
+    right: 14px;
+    width: min(148px, 40vw);
+    font-size: clamp(0.86rem, 3.9vw, 1.06rem);
+    transform: rotate(-4deg);
   }
 
   .promo-banner-inner {
