@@ -287,7 +287,7 @@ img {
   flex-wrap: wrap;
 }
 
-.hero-footnote {
+.cost-footnote {
   margin: 20px auto 0;
   max-width: 760px;
   font-size: 0.82rem;
@@ -1078,7 +1078,7 @@ img {
     transform: translateY(8px);
   }
 
-  .hero-footnote {
+  .cost-footnote {
     margin-top: 14px;
     font-size: 0.74rem;
     line-height: 1.42;
