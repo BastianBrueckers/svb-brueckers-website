@@ -261,6 +261,10 @@ img {
   padding: 0;
 }
 
+.hero-about-cta {
+  min-height: 44px;
+}
+
 .cost-footnote {
   margin: 20px auto 0;
   max-width: 760px;
@@ -1232,6 +1236,13 @@ img {
 
   .hero-buttons .btn-secondary {
     min-height: 44px;
+  }
+
+  .hero-about-cta {
+    width: 100%;
+    max-width: 430px;
+    min-height: 48px;
+    border-radius: 10px;
   }
 
   /* Sections Mobile */
