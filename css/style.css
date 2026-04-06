@@ -1348,6 +1348,8 @@ img {
   }
 }
 
-.text-justify p {
-  text-align: justify;
+@media (min-width: 769px) {
+  .desktop-justify {
+    text-align: justify;
+  }
 }
