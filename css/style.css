@@ -1220,6 +1220,21 @@ img {
   margin-bottom: 16px;
 }
 
+.article-content h2 {
+  margin: 28px 0 12px;
+  font-size: clamp(1.3rem, 2.4vw, 1.55rem);
+  line-height: 1.35;
+  color: var(--primary);
+}
+
+.article-content ul {
+  margin: 0 0 18px 22px;
+}
+
+.article-content li {
+  margin-bottom: 8px;
+}
+
 .article-cta-wrap {
   margin-top: 34px;
   background: var(--accent);
