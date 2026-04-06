@@ -157,7 +157,7 @@ img {
   top: 74px;
   right: clamp(18px, 5vw, 80px);
   z-index: 1;
-  width: clamp(170px, 20vw, 255px);
+  width: clamp(160px, 18vw, 230px);
   aspect-ratio: 1 / 1;
   display: grid;
   place-content: center;
@@ -166,7 +166,7 @@ img {
   color: #fff;
   font-weight: 700;
   line-height: 1.1;
-  font-size: clamp(1.25rem, 1.9vw, 1.95rem);
+  font-size: clamp(1.15rem, 1.75vw, 1.75rem);
   letter-spacing: 0.02em;
   text-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
   background: radial-gradient(circle at 26% 20%, #ffc592 0%, #ef9652 38%, #d16c2c 100%);
