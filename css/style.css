@@ -1110,6 +1110,110 @@ img {
   gap: 10px;
 }
 
+/* ---- Ratgeber ---- */
+.page-main {
+  padding: 118px 0 64px;
+}
+
+.page-title {
+  font-family: Georgia, serif;
+  font-size: clamp(2rem, 5vw, 2.7rem);
+  line-height: 1.2;
+  margin-bottom: 26px;
+  color: var(--primary);
+}
+
+.article-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 22px;
+}
+
+.article-card {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: #fff;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  box-shadow: 0 7px 24px rgba(15, 23, 42, 0.08);
+}
+
+.article-card h2 {
+  font-size: 1.38rem;
+  line-height: 1.35;
+  color: var(--primary);
+}
+
+.article-card p {
+  color: var(--text-light);
+}
+
+.article-card-link {
+  margin-top: auto;
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.article-content {
+  max-width: 850px;
+}
+
+.article-content p {
+  margin-bottom: 16px;
+}
+
+.article-cta-wrap {
+  margin-top: 34px;
+  background: var(--accent);
+  border-radius: 14px;
+  padding: 16px;
+}
+
+.article-cta-group {
+  width: 100%;
+  max-width: 520px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.article-cta-group .btn {
+  min-height: 52px;
+}
+
+.article-main-cta {
+  flex: 1 1 auto;
+  font-size: 1rem;
+  font-weight: 700;
+  background: rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  border-radius: 12px;
+  color: #fff;
+}
+
+.article-main-cta:hover {
+  background: rgba(255, 255, 255, 0.24);
+}
+
+.article-icon-cta {
+  width: 52px;
+  height: 52px;
+  min-width: 52px;
+  min-height: 52px;
+  padding: 0;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  color: #fff;
+}
+
+.article-icon-cta:hover {
+  background: rgba(255, 255, 255, 0.24);
+}
+
 /* ========================================
    RESPONSIVE
    ======================================== */
@@ -1415,6 +1519,24 @@ img {
 
   .consent-banner__actions .btn {
     width: 100%;
+  }
+
+  .page-main {
+    padding-top: 104px;
+  }
+
+  .article-cta-wrap {
+    padding: 12px;
+  }
+
+  .article-cta-group {
+    gap: 10px;
+  }
+
+  .article-main-cta {
+    font-size: 0.92rem;
+    min-width: 0;
+    padding: 0 14px;
   }
 }
 
