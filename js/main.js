@@ -233,10 +233,81 @@ function initScrollRestorationFix() {
   });
 }
 
+function isRatgeberArticlePage() {
+  var path = window.location.pathname;
+  return path.startsWith('/ratgeber/') && path !== '/ratgeber/' && path !== '/ratgeber/index.html';
+}
+
+function initRatgeberBackButtons() {
+  if (!isRatgeberArticlePage()) return;
+
+  var article = document.querySelector('.article-content');
+  var title = article ? article.querySelector('h1.page-title') : null;
+
+  if (!article || !title) return;
+
+  function createBackButton(extraClass) {
+    var link = document.createElement('a');
+    link.href = '/ratgeber/';
+    link.className = 'ratgeber-back-button' + (extraClass ? ' ' + extraClass : '');
+    link.textContent = '← Zurück zum Ratgeber';
+    return link;
+  }
+
+  if (!article.querySelector('.ratgeber-back-button--top')) {
+    article.insertBefore(createBackButton('ratgeber-back-button--top'), title);
+  }
+
+  if (!article.querySelector('.ratgeber-back-button--bottom')) {
+    var bottomButton = createBackButton('ratgeber-back-button--bottom');
+    var ctaWrap = article.querySelector('.article-cta-wrap');
+    if (ctaWrap) {
+      article.insertBefore(bottomButton, ctaWrap);
+    } else {
+      article.appendChild(bottomButton);
+    }
+  }
+}
+
+function initRatgeberArticleSchema() {
+  if (!isRatgeberArticlePage()) return;
+  if (document.querySelector('script[data-ratgeber-schema]')) return;
+
+  var article = document.querySelector('.article-content');
+  var title = article ? article.querySelector('h1.page-title') : null;
+  var firstParagraph = article ? article.querySelector('p') : null;
+  if (!title || !firstParagraph) return;
+
+  var schema = {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: title.textContent.trim(),
+    description: firstParagraph.textContent.trim(),
+    inLanguage: 'de-DE',
+    mainEntityOfPage: window.location.href,
+    author: {
+      '@type': 'Person',
+      name: 'Bastian Brückers'
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: 'SVB Brückers'
+    }
+  };
+
+  var script = document.createElement('script');
+  script.type = 'application/ld+json';
+  script.dataset.ratgeberSchema = 'true';
+  script.textContent = JSON.stringify(schema);
+  document.head.appendChild(script);
+}
+
 function initPageFeatures() {
   initScrollRestorationFix();
   initFaqAccordion();
   initConsentAndMaps();
+  initRatgeberBackButtons();
+  initRatgeberArticleSchema();
 }
 
 if (document.readyState === 'loading') {
