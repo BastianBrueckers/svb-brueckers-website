@@ -1265,6 +1265,38 @@ img {
   max-width: 850px;
 }
 
+.ratgeber-back-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  width: fit-content;
+  min-height: 42px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1px solid #d6e0ec;
+  background: #f8fbff;
+  color: #2b4361;
+  font-weight: 600;
+  font-size: 0.96rem;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.ratgeber-back-button:hover,
+.ratgeber-back-button:focus-visible {
+  background: #eef4fb;
+  border-color: #c3d2e2;
+  color: #1f334d;
+  transform: translateY(-1px);
+}
+
+.ratgeber-back-button--top {
+  margin-bottom: 16px;
+}
+
+.ratgeber-back-button--bottom {
+  margin-top: 30px;
+}
+
 .article-content p {
   margin-bottom: 16px;
 }
