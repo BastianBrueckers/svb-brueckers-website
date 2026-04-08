@@ -1330,6 +1330,66 @@ img {
   margin-bottom: 8px;
 }
 
+.glossary-list {
+  margin-top: 22px;
+}
+
+.glossary-letter-group + .glossary-letter-group {
+  margin-top: 26px;
+}
+
+.glossary-letter {
+  margin: 0 0 10px;
+  color: var(--primary);
+  font-size: 1.2rem;
+  font-weight: 800;
+}
+
+.glossary-item {
+  border: 1px solid #d8e0e8;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.04);
+}
+
+.glossary-item + .glossary-item {
+  margin-top: 10px;
+}
+
+.glossary-item summary {
+  list-style: none;
+  cursor: pointer;
+  font-weight: 650;
+  padding: 14px 18px;
+  position: relative;
+  padding-right: 46px;
+}
+
+.glossary-item summary::-webkit-details-marker {
+  display: none;
+}
+
+.glossary-item summary::after {
+  content: '+';
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--accent);
+  font-size: 1.3rem;
+  line-height: 1;
+}
+
+.glossary-item[open] summary::after {
+  content: '−';
+}
+
+.glossary-item p {
+  margin: 0;
+  padding: 0 18px 16px;
+  color: var(--text-light);
+}
+
 .article-cta-wrap {
   margin-top: 34px;
   background: var(--accent);
@@ -1743,6 +1803,22 @@ img {
     font-size: 0.92rem;
     min-width: 0;
     padding: 0 14px;
+  }
+
+  .glossary-letter-group + .glossary-letter-group {
+    margin-top: 20px;
+  }
+
+  .glossary-item summary {
+    padding: 12px 14px;
+    padding-right: 40px;
+    font-size: 0.98rem;
+  }
+
+  .glossary-item p {
+    padding: 0 14px 14px;
+    font-size: 0.97rem;
+    line-height: 1.62;
   }
 }
 
