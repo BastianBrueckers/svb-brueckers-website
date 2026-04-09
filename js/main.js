@@ -307,6 +307,12 @@ function initConsentAndMaps() {
         if (mapPlaceholder) {
           mapPlaceholder.hidden = true;
         }
+        if (mapConsentButton) {
+          mapConsentButton.hidden = true;
+        }
+        if (mapStatus) {
+          mapStatus.hidden = true;
+        }
         initServiceAreaMap();
       })
       .catch(function () {
