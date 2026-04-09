@@ -221,12 +221,37 @@ function initConsentAndMaps() {
     mapCanvas.dataset.mapInitialized = 'true';
   }
 
+  function renderFallbackMap() {
+    if (!mapContainer || mapContainer.dataset.mapLoaded === 'true') return;
+
+    var mapIframe = document.createElement('iframe');
+    mapIframe.src = 'https://maps.google.com/maps?q=48.7475466,9.2399083&z=13&output=embed';
+    mapIframe.loading = 'lazy';
+    mapIframe.referrerPolicy = 'no-referrer-when-downgrade';
+    mapIframe.allowFullscreen = true;
+    mapIframe.title = 'Google Maps Standort von SVB Brückers';
+    mapIframe.className = 'map-canvas';
+
+    if (mapPlaceholder) {
+      mapPlaceholder.hidden = true;
+    }
+
+    if (mapCanvas) {
+      mapCanvas.remove();
+    }
+
+    mapContainer.classList.add('is-loaded');
+    mapContainer.appendChild(mapIframe);
+    mapContainer.dataset.mapLoaded = 'true';
+  }
+
   function renderMap() {
     if (!mapContainer || !mapCanvas || mapContainer.dataset.mapLoaded === 'true') return;
 
-    var apiKey = mapContainer.dataset.mapApiKey;
+    var apiKey = (mapContainer.dataset.mapApiKey || '').trim();
     if (!apiKey || apiKey === 'HIER_GOOGLE_MAPS_API_KEY_EINFUEGEN') {
-      console.warn('Google Maps API Key fehlt. Bitte data-map-api-key im HTML setzen.');
+      console.warn('Google Maps API Key fehlt. Fallback auf eingebettete Karte wird verwendet.');
+      renderFallbackMap();
       return;
     }
 
@@ -241,9 +266,8 @@ function initConsentAndMaps() {
         initServiceAreaMap();
       })
       .catch(function () {
-        if (mapPlaceholder) {
-          mapPlaceholder.hidden = false;
-        }
+        console.warn('Google Maps API konnte nicht geladen werden. Fallback auf eingebettete Karte wird verwendet.');
+        renderFallbackMap();
       });
   }
 
