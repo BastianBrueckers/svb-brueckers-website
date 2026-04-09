@@ -98,9 +98,7 @@ function initConsentAndMaps() {
   var CONSENT_ACCEPTED = 'accepted';
   var CONSENT_DECLINED = 'declined';
   var mapContainer = document.querySelector('[data-map-container]');
-  var mapCanvas = document.querySelector('[data-map-canvas]');
   var mapPlaceholder = document.querySelector('[data-map-placeholder]');
-  var mapStatus = document.querySelector('[data-map-status]');
   var mapConsentButton = document.querySelector('[data-map-consent-button]');
   var consentBanner = document.querySelector('[data-consent-banner]');
   var acceptButton = document.querySelector('[data-consent-accept]');
@@ -133,231 +131,19 @@ function initConsentAndMaps() {
     consentBanner.hidden = false;
   }
 
-  function loadGoogleMapsApi(apiKey) {
-    if (window.google && window.google.maps) {
-      return Promise.resolve(window.google.maps);
-    }
-
-    var existingScript = document.querySelector('script[data-google-maps-loader="svb"]');
-    if (existingScript && window.__svbGoogleMapsPromise) {
-      return window.__svbGoogleMapsPromise;
-    }
-
-    if (window.__svbGoogleMapsPromise) {
-      return window.__svbGoogleMapsPromise;
-    }
-
-    window.__svbGoogleMapsPromise = new Promise(function (resolve, reject) {
-      var callbackName = 'initSvbGoogleMapsApi';
-      var previousAuthFailureHandler = window.gm_authFailure;
-      window[callbackName] = function () {
-        resolve(window.google.maps);
-        delete window[callbackName];
-        window.gm_authFailure = previousAuthFailureHandler;
-      };
-
-      window.gm_authFailure = function () {
-        window.__svbGoogleMapsPromise = null;
-        reject(new Error('Google Maps Auth fehlgeschlagen.'));
-        delete window[callbackName];
-        if (typeof previousAuthFailureHandler === 'function') {
-          previousAuthFailureHandler();
-        } else {
-          delete window.gm_authFailure;
-        }
-      };
-
-      var script = document.createElement('script');
-      script.src = 'https://maps.googleapis.com/maps/api/js?key=' + encodeURIComponent(apiKey) + '&callback=' + callbackName;
-      script.async = true;
-      script.defer = true;
-      script.dataset.googleMapsLoader = 'svb';
-      script.onerror = function () {
-        window.__svbGoogleMapsPromise = null;
-        reject(new Error('Google Maps konnte nicht geladen werden.'));
-        delete window[callbackName];
-        window.gm_authFailure = previousAuthFailureHandler;
-      };
-
-      document.head.appendChild(script);
-    });
-
-    return window.__svbGoogleMapsPromise;
-  }
-
-  function initServiceAreaMap() {
-    if (!mapCanvas || mapCanvas.dataset.mapInitialized === 'true') return;
-
-    // Firmenstandort aus bestehender Einbindung übernommen.
-    var companyPosition = { lat: 48.7475466, lng: 9.2399083 };
-
-    // Kompakte, harmonische Polygon-Kontur für das mobile Einsatzgebiet.
-    var serviceAreaCoords = [
-      { lat: 48.7368, lng: 9.1702 }, // Degerloch
-      { lat: 48.7648, lng: 9.2015 }, // Wangen
-      { lat: 48.7792, lng: 9.2368 }, // Mettingen (leicht geglättet)
-      { lat: 48.7635, lng: 9.2588 }, // Obertürkheim (leicht geglättet)
-      { lat: 48.7265, lng: 9.2528 }, // Scharnhauser Park / Ostfildern (leicht geglättet)
-      { lat: 48.7148, lng: 9.2148 }, // Heumaden
-      { lat: 48.7268, lng: 9.2012 }  // Sillenbuch
-    ];
-
-    var map = new google.maps.Map(mapCanvas, {
-      center: companyPosition,
-      zoom: 12,
-      mapTypeControl: false,
-      streetViewControl: false,
-      fullscreenControl: false,
-      zoomControl: true,
-      gestureHandling: 'cooperative',
-      clickableIcons: false
-    });
-
-    var companyMarker = new google.maps.Marker({
-      position: companyPosition,
-      map: map,
-      title: 'SVB Brückers – Firmenstandort'
-    });
-
-    var serviceAreaPolygon = new google.maps.Polygon({
-      paths: serviceAreaCoords,
-      strokeColor: '#1a365d',
-      strokeOpacity: 0.86,
-      strokeWeight: 2,
-      fillColor: '#E07A3A',
-      fillOpacity: 0.2,
-      map: map
-    });
-
-    var bounds = new google.maps.LatLngBounds();
-    bounds.extend(companyPosition);
-
-    serviceAreaCoords.forEach(function (point) {
-      bounds.extend(point);
-    });
-
-    function fitMapToServiceArea() {
-      map.fitBounds(bounds, {
-        top: 36,
-        right: 36,
-        bottom: 36,
-        left: 36
-      });
-    }
-
-    fitMapToServiceArea();
-
-    google.maps.event.addListenerOnce(map, 'idle', function () {
-      if (map.getZoom() > 13) {
-        map.setZoom(13);
-      }
-    });
-
-    window.addEventListener('resize', fitMapToServiceArea);
-
-    companyMarker.addListener('click', function () {
-      new google.maps.InfoWindow({
-        content: '<strong>SVB Brückers</strong><br>Firmenstandort'
-      }).open(map, companyMarker);
-    });
-
-    serviceAreaPolygon.addListener('click', function () {
-      map.fitBounds(bounds);
-    });
-
-    mapCanvas.dataset.mapInitialized = 'true';
-  }
-
-  function showMapStatus(message) {
-    if (!mapStatus) return;
-    mapStatus.textContent = message;
-    mapStatus.hidden = false;
-  }
-
-  function resolveGoogleMapsApiKey() {
-    var containerKey = mapContainer ? (mapContainer.dataset.mapApiKey || '').trim() : '';
-    var metaTag = document.querySelector('meta[name="google-maps-api-key"]');
-    var metaKey = metaTag ? (metaTag.getAttribute('content') || '').trim() : '';
-    var globalCandidates = [
-      window.SVB_GOOGLE_MAPS_API_KEY,
-      window.GOOGLE_MAPS_API_KEY,
-      window.GMAPS_API_KEY,
-      window.GOOGLE_MAPS_KEY
-    ];
-    var globalKeys = globalCandidates
-      .map(function (value) {
-        return (value || '').toString().trim();
-      })
-      .filter(Boolean);
-
-    var candidates = [containerKey, metaKey].concat(globalKeys);
-
-    for (var i = 0; i < candidates.length; i += 1) {
-      var candidate = candidates[i];
-      if (candidate && candidate !== 'HIER_GOOGLE_MAPS_API_KEY_EINFUEGEN') {
-        return candidate;
-      }
-    }
-
-    return '';
-  }
-
   function renderMap() {
-    if (!mapContainer || !mapCanvas || mapContainer.dataset.mapLoaded === 'true') return;
+    if (!mapContainer || mapContainer.dataset.mapLoaded === 'true') return;
 
-    var apiKey = resolveGoogleMapsApiKey();
-    if (!apiKey) {
-      console.warn('Google Maps API Key fehlt. Karte kann nicht geladen werden.');
-      showMapStatus('Google Maps ist aktuell nicht verfügbar, weil der API-Key noch fehlt.');
-      if (mapConsentButton) mapConsentButton.hidden = true;
-      return;
-    }
+    var mapIframe = document.createElement('iframe');
+    mapIframe.src = 'https://maps.google.com/maps?q=48.7475466,9.2399083&z=15&output=embed';
+    mapIframe.loading = 'lazy';
+    mapIframe.referrerPolicy = 'no-referrer-when-downgrade';
+    mapIframe.allowFullscreen = true;
+    mapIframe.title = 'Google Maps Standort von SVB Brückers';
 
-    loadGoogleMapsApi(apiKey)
-      .then(function () {
-        mapContainer.dataset.mapLoaded = 'true';
-        mapContainer.classList.add('is-loaded');
-        mapCanvas.hidden = false;
-        if (mapPlaceholder) {
-          mapPlaceholder.hidden = true;
-        }
-        if (mapConsentButton) {
-          mapConsentButton.hidden = true;
-        }
-        if (mapStatus) {
-          mapStatus.hidden = true;
-        }
-        initServiceAreaMap();
-      })
-      .catch(function () {
-        console.warn('Google Maps API konnte nicht geladen werden.');
-        renderMapFallbackEmbed();
-        showMapStatus('Google Maps konnte wegen einer Konfigurationsstörung nicht geladen werden. Ersatzkarte wurde angezeigt.');
-      });
-  }
-
-  function renderMapFallbackEmbed() {
-    if (!mapCanvas) return;
-    if (mapCanvas.querySelector('[data-map-fallback="embed"]')) return;
-
-    var iframe = document.createElement('iframe');
-    iframe.setAttribute('data-map-fallback', 'embed');
-    iframe.className = 'map-embed-fallback';
-    iframe.loading = 'lazy';
-    iframe.referrerPolicy = 'no-referrer-when-downgrade';
-    iframe.title = 'Einsatzgebiet von SVB Brückers auf Google Maps';
-    iframe.src = 'https://www.google.com/maps?q=48.7475466,9.2399083&z=12&output=embed';
-
-    mapCanvas.innerHTML = '';
-    mapCanvas.appendChild(iframe);
-    mapCanvas.hidden = false;
-
-    if (mapPlaceholder) {
-      mapPlaceholder.hidden = true;
-    }
-    if (mapConsentButton) {
-      mapConsentButton.hidden = true;
-    }
+    mapContainer.innerHTML = '';
+    mapContainer.appendChild(mapIframe);
+    mapContainer.dataset.mapLoaded = 'true';
   }
 
   function applyConsentState(value) {
@@ -369,18 +155,6 @@ function initConsentAndMaps() {
 
     if (mapPlaceholder) {
       mapPlaceholder.hidden = false;
-    }
-
-    if (mapCanvas) {
-      mapCanvas.hidden = true;
-    }
-
-    if (mapConsentButton) {
-      mapConsentButton.hidden = false;
-    }
-
-    if (mapStatus) {
-      mapStatus.hidden = true;
     }
 
     if (value === CONSENT_DECLINED) {
