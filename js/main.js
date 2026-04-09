@@ -259,6 +259,22 @@ function initConsentAndMaps() {
     bounds.extend(companyPosition);
     var districtLabelInfoWindow = new google.maps.InfoWindow();
 
+    function getDistrictCenter(path) {
+      var totals = path.reduce(
+        function (accumulator, point) {
+          accumulator.lat += point.lat;
+          accumulator.lng += point.lng;
+          return accumulator;
+        },
+        { lat: 0, lng: 0 }
+      );
+
+      return {
+        lat: totals.lat / path.length,
+        lng: totals.lng / path.length
+      };
+    }
+
     districtAreas.forEach(function (district) {
       var districtPolygon = new google.maps.Polygon({
         paths: district.path,
@@ -266,13 +282,32 @@ function initConsentAndMaps() {
         strokeOpacity: 0.9,
         strokeWeight: 2,
         fillColor: '#E07A3A',
-        fillOpacity: 0.2,
+        fillOpacity: 0.24,
         map: map
       });
 
+      var districtCenter = getDistrictCenter(district.path);
+
+      new google.maps.Marker({
+        position: districtCenter,
+        map: map,
+        icon: {
+          path: google.maps.SymbolPath.CIRCLE,
+          scale: 0
+        },
+        label: {
+          text: district.name,
+          color: '#1b4a77',
+          fontSize: '12px',
+          fontWeight: '700'
+        },
+        clickable: false,
+        zIndex: 10
+      });
+
       districtPolygon.addListener('click', function (event) {
-        districtLabelInfoWindow.setContent(district.name);
-        districtLabelInfoWindow.setPosition(event.latLng);
+        districtLabelInfoWindow.setContent('<strong>' + district.name + '</strong>');
+        districtLabelInfoWindow.setPosition(event.latLng || districtCenter);
         districtLabelInfoWindow.open(map);
       });
 
