@@ -167,16 +167,77 @@ function initConsentAndMaps() {
     if (!mapCanvas || mapCanvas.dataset.mapInitialized === 'true') return;
 
     var companyPosition = { lat: 48.7475466, lng: 9.2399083 };
-
-    // Einsatzgebiet von SVB Brückers: ruhiges Polygon rund um die relevanten Stadtteile.
-    var serviceAreaPath = [
-      { lat: 48.7489, lng: 9.1712 }, // Degerloch
-      { lat: 48.7434, lng: 9.2261 }, // Sillenbuch
-      { lat: 48.7379, lng: 9.2564 }, // Heumaden
-      { lat: 48.7213, lng: 9.2767 }, // Ostfildern / Scharnhauser Park
-      { lat: 48.7872, lng: 9.2794 }, // Mettingen
-      { lat: 48.7728, lng: 9.2671 }, // Obertürkheim
-      { lat: 48.7813, lng: 9.2365 } // Wangen
+    var districtAreas = [
+      {
+        name: 'Degerloch',
+        path: [
+          { lat: 48.7394, lng: 9.1571 },
+          { lat: 48.7399, lng: 9.1868 },
+          { lat: 48.7549, lng: 9.1907 },
+          { lat: 48.761, lng: 9.1645 },
+          { lat: 48.7514, lng: 9.1499 }
+        ]
+      },
+      {
+        name: 'Sillenbuch',
+        path: [
+          { lat: 48.7533, lng: 9.2088 },
+          { lat: 48.7482, lng: 9.2384 },
+          { lat: 48.7658, lng: 9.2472 },
+          { lat: 48.7767, lng: 9.2212 },
+          { lat: 48.7674, lng: 9.2018 }
+        ]
+      },
+      {
+        name: 'Heumaden',
+        path: [
+          { lat: 48.736, lng: 9.2368 },
+          { lat: 48.7368, lng: 9.2661 },
+          { lat: 48.7525, lng: 9.2735 },
+          { lat: 48.7607, lng: 9.2461 },
+          { lat: 48.7494, lng: 9.2291 }
+        ]
+      },
+      {
+        name: 'Wangen',
+        path: [
+          { lat: 48.7794, lng: 9.2241 },
+          { lat: 48.775, lng: 9.2518 },
+          { lat: 48.7907, lng: 9.2596 },
+          { lat: 48.7994, lng: 9.2358 },
+          { lat: 48.7913, lng: 9.2162 }
+        ]
+      },
+      {
+        name: 'Obertürkheim',
+        path: [
+          { lat: 48.7612, lng: 9.2504 },
+          { lat: 48.7609, lng: 9.2784 },
+          { lat: 48.7762, lng: 9.2858 },
+          { lat: 48.7856, lng: 9.2611 },
+          { lat: 48.7753, lng: 9.2452 }
+        ]
+      },
+      {
+        name: 'Mettingen',
+        path: [
+          { lat: 48.7785, lng: 9.2736 },
+          { lat: 48.7756, lng: 9.3021 },
+          { lat: 48.7923, lng: 9.3097 },
+          { lat: 48.8016, lng: 9.2852 },
+          { lat: 48.7934, lng: 9.2678 }
+        ]
+      },
+      {
+        name: 'Scharnhauser Park',
+        path: [
+          { lat: 48.7164, lng: 9.2522 },
+          { lat: 48.7157, lng: 9.2864 },
+          { lat: 48.7339, lng: 9.2952 },
+          { lat: 48.7422, lng: 9.2647 },
+          { lat: 48.7305, lng: 9.2455 }
+        ]
+      }
     ];
 
     var map = new google.maps.Map(mapCanvas, {
@@ -194,21 +255,30 @@ function initConsentAndMaps() {
       title: 'SVB Brückers – Firmenstandort'
     });
 
-    var serviceAreaPolygon = new google.maps.Polygon({
-      paths: serviceAreaPath,
-      strokeColor: '#1b4a77',
-      strokeOpacity: 0.9,
-      strokeWeight: 2,
-      fillColor: '#E07A3A',
-      fillOpacity: 0.24
-    });
-    serviceAreaPolygon.setMap(map);
-
     var bounds = new google.maps.LatLngBounds();
     bounds.extend(companyPosition);
+    var districtLabelInfoWindow = new google.maps.InfoWindow();
 
-    serviceAreaPath.forEach(function (point) {
-      bounds.extend(point);
+    districtAreas.forEach(function (district) {
+      var districtPolygon = new google.maps.Polygon({
+        paths: district.path,
+        strokeColor: '#1b4a77',
+        strokeOpacity: 0.9,
+        strokeWeight: 2,
+        fillColor: '#E07A3A',
+        fillOpacity: 0.2,
+        map: map
+      });
+
+      districtPolygon.addListener('click', function (event) {
+        districtLabelInfoWindow.setContent(district.name);
+        districtLabelInfoWindow.setPosition(event.latLng);
+        districtLabelInfoWindow.open(map);
+      });
+
+      district.path.forEach(function (point) {
+        bounds.extend(point);
+      });
     });
 
     map.fitBounds(bounds, {
