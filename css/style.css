@@ -1522,6 +1522,40 @@ img {
   display: block;
 }
 
+.ratgeber-card {
+  min-height: 420px;
+}
+
+.ratgeber-image-wrapper {
+  width: 100%;
+  height: 180px;
+  overflow: hidden;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f5f5f5;
+}
+
+.ratgeber-image-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+}
+
+.ratgeber-content {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.ratgeber-button {
+  margin-top: auto;
+}
+
 .article-card-title {
   font-family: var(--font-main);
   font-size: var(--font-size-h3);
@@ -2122,6 +2156,14 @@ img {
     min-height: 430px;
   }
 
+  .ratgeber-card {
+    min-height: 360px;
+  }
+
+  .ratgeber-image-wrapper {
+    height: 140px;
+  }
+
   .article-card-link {
     width: 100%;
     justify-content: center;
@@ -2200,6 +2242,14 @@ img {
   .article-card-media {
     height: var(--article-image-height-mobile, 250px);
     margin: -16px -16px 10px;
+  }
+
+  .ratgeber-card {
+    min-height: 360px;
+  }
+
+  .ratgeber-image-wrapper {
+    height: 140px;
   }
 
   .article-card img {
