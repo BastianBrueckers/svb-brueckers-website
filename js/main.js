@@ -302,12 +302,110 @@ function initRatgeberArticleSchema() {
   document.head.appendChild(script);
 }
 
+function initProcessSlider() {
+  var section = document.querySelector('[data-process-slider]');
+  if (!section) return;
+
+  var track = section.querySelector('[data-process-track]');
+  var cards = track ? track.querySelectorAll('[data-process-card]') : [];
+  var prevButton = section.querySelector('[data-process-prev]');
+  var nextButton = section.querySelector('[data-process-next]');
+  var dotsContainer = document.querySelector('[data-process-dots]');
+
+  if (!track || !cards.length || !dotsContainer) return;
+
+  dotsContainer.innerHTML = '';
+
+  function getStepWidth() {
+    return cards[0].offsetWidth + parseFloat(window.getComputedStyle(track).columnGap || '0');
+  }
+
+  function getMaxScroll() {
+    return Math.max(0, track.scrollWidth - track.clientWidth);
+  }
+
+  function getSlidesCount() {
+    var stepWidth = getStepWidth();
+    if (!stepWidth) return cards.length;
+    return Math.max(1, Math.floor(getMaxScroll() / stepWidth) + 1);
+  }
+
+  function getIndex() {
+    var maxScroll = getMaxScroll();
+    if (maxScroll <= 0) return 0;
+    return Math.round((track.scrollLeft / maxScroll) * (getSlidesCount() - 1));
+  }
+
+  function scrollToIndex(index) {
+    var maxScroll = getMaxScroll();
+    var slidesCount = getSlidesCount();
+    if (slidesCount <= 1) {
+      track.scrollTo({ left: 0, behavior: 'smooth' });
+      return;
+    }
+    var target = (index / (slidesCount - 1)) * maxScroll;
+    track.scrollTo({ left: target, behavior: 'smooth' });
+  }
+
+  function updateControls() {
+    var index = getIndex();
+    var slidesCount = getSlidesCount();
+
+    Array.prototype.forEach.call(dotsContainer.children, function (dot, dotIndex) {
+      var active = dotIndex === index;
+      dot.classList.toggle('is-active', active);
+      dot.setAttribute('aria-current', active ? 'true' : 'false');
+    });
+
+    if (prevButton) prevButton.disabled = index === 0;
+    if (nextButton) nextButton.disabled = index >= slidesCount - 1;
+  }
+
+  function renderDots() {
+    var slidesCount = getSlidesCount();
+    dotsContainer.innerHTML = '';
+
+    for (var i = 0; i < slidesCount; i += 1) {
+      var dot = document.createElement('button');
+      dot.type = 'button';
+      dot.className = 'process-dot';
+      dot.setAttribute('aria-label', 'Zu Ansicht ' + (i + 1));
+      dot.addEventListener('click', (function (index) {
+        return function () {
+          scrollToIndex(index);
+        };
+      })(i));
+      dotsContainer.appendChild(dot);
+    }
+
+    updateControls();
+  }
+
+  if (prevButton) {
+    prevButton.addEventListener('click', function () {
+      scrollToIndex(Math.max(0, getIndex() - 1));
+    });
+  }
+
+  if (nextButton) {
+    nextButton.addEventListener('click', function () {
+      scrollToIndex(Math.min(getSlidesCount() - 1, getIndex() + 1));
+    });
+  }
+
+  track.addEventListener('scroll', updateControls, { passive: true });
+  window.addEventListener('resize', renderDots);
+
+  renderDots();
+}
+
 function initPageFeatures() {
   initScrollRestorationFix();
   initFaqAccordion();
   initConsentAndMaps();
   initRatgeberBackButtons();
   initRatgeberArticleSchema();
+  initProcessSlider();
 }
 
 if (document.readyState === 'loading') {
