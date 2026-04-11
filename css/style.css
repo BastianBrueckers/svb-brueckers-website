@@ -2512,3 +2512,15 @@ img {
     text-align: justify;
   }
 }
+
+@media (min-width: 1024px) {
+  .hero-main-cta {
+    width: fit-content;
+    min-width: 170px;
+  }
+
+  .hero-about-cta {
+    width: fit-content;
+    min-width: 290px;
+  }
+}
