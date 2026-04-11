@@ -683,6 +683,28 @@ img {
   opacity: 0.72;
 }
 
+.process-card-dummy {
+  justify-content: center;
+  background:
+    linear-gradient(160deg, rgba(18, 70, 48, 0.9), rgba(37, 108, 74, 0.86)),
+    radial-gradient(circle at 20% 25%, rgba(143, 201, 131, 0.38), transparent 52%),
+    radial-gradient(circle at 78% 78%, rgba(93, 152, 116, 0.36), transparent 48%);
+  border-color: rgba(54, 117, 84, 0.35);
+  box-shadow: 0 14px 34px rgba(17, 45, 33, 0.24);
+  opacity: 1;
+  pointer-events: none;
+}
+
+.process-card-dummy-logo {
+  width: 88px;
+  height: 88px;
+  object-fit: contain;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.93);
+  padding: 12px;
+  box-shadow: 0 10px 24px rgba(7, 25, 16, 0.24);
+}
+
 .process-step-badge {
   display: inline-flex;
   align-items: center;
@@ -698,18 +720,15 @@ img {
   letter-spacing: 0.01em;
 }
 
-.process-highlight-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  background: #ff5000;
-  color: #ffffff;
-  font-size: 12px;
-  font-weight: 600;
-  padding: 4px 10px;
-  border-radius: 999px;
-  line-height: 1;
-  box-shadow: 0 8px 16px rgba(255, 80, 0, 0.26);
+.process-card-cta-wrap {
+  display: flex;
+  justify-content: center;
+  margin-top: 12px;
+  width: 100%;
+}
+
+.process-card-cta-highlight {
+  min-width: 168px;
 }
 
 .process-card-title {
@@ -833,6 +852,13 @@ img {
   .process-card.is-active:hover {
     transform: scale(1.035) translateY(-4px);
     box-shadow: 0 24px 48px rgba(15, 23, 42, 0.18);
+    opacity: 1;
+  }
+
+  .process-card-dummy:hover,
+  .process-card-dummy.is-active:hover {
+    transform: none;
+    box-shadow: 0 14px 34px rgba(17, 45, 33, 0.24);
     opacity: 1;
   }
 
@@ -2082,6 +2108,10 @@ img {
     scroll-snap-align: center;
     min-height: 278px;
     opacity: 0.66;
+  }
+
+  .process-card-dummy {
+    display: none;
   }
 
   .process-card.is-active {

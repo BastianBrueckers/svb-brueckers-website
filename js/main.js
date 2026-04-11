@@ -338,7 +338,7 @@ function initProcessSlider() {
     return closestIndex;
   }
 
-  function scrollToIndex(index) {
+  function scrollToIndex(index, behavior) {
     var boundedIndex = Math.max(0, Math.min(cards.length - 1, index));
     var targetCard = cards[boundedIndex];
     if (!targetCard) return;
@@ -347,11 +347,11 @@ function initProcessSlider() {
     var target = Math.min(Math.max(0, rawTarget), getMaxScroll());
 
     if (cards.length <= 1) {
-      track.scrollTo({ left: 0, behavior: 'smooth' });
+      track.scrollTo({ left: 0, behavior: behavior || 'smooth' });
       return;
     }
 
-    track.scrollTo({ left: target, behavior: 'smooth' });
+    track.scrollTo({ left: target, behavior: behavior || 'smooth' });
   }
 
   function updateActiveCard(index) {
@@ -414,6 +414,9 @@ function initProcessSlider() {
   window.addEventListener('resize', renderDots);
 
   renderDots();
+  requestAnimationFrame(function () {
+    scrollToIndex(0, 'auto');
+  });
 }
 
 function initPageFeatures() {
