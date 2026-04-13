@@ -1828,31 +1828,12 @@ img {
   color: var(--primary);
 }
 
-.article-content h3 {
-  margin: 20px 0 10px;
-  font-size: 1.12rem;
-  line-height: 1.45;
-  color: #223650;
-}
-
 .article-content ul {
-  margin: 0 0 18px 22px;
-}
-
-.article-content ol {
   margin: 0 0 18px 22px;
 }
 
 .article-content li {
   margin-bottom: 8px;
-}
-
-.article-longform {
-  margin-top: 40px;
-}
-
-.article-longform h2:first-of-type {
-  margin-top: 0;
 }
 
 .glossary-list {
@@ -1922,10 +1903,6 @@ img {
   padding: 16px;
 }
 
-.article-cta-wrap--bottom {
-  margin-top: 40px;
-}
-
 .article-cta-group {
   width: 100%;
   max-width: 520px;
@@ -1951,15 +1928,6 @@ img {
 
 .article-main-cta:hover {
   background: rgba(255, 255, 255, 0.24);
-}
-
-.article-cta-group--full {
-  max-width: 760px;
-}
-
-.article-cta-group--full .article-main-cta {
-  flex: 1 1 0;
-  text-align: center;
 }
 
 .article-icon-cta {
@@ -2481,14 +2449,6 @@ img {
     gap: 10px;
   }
 
-  .article-cta-group--full {
-    flex-wrap: wrap;
-  }
-
-  .article-cta-group--full .article-main-cta {
-    flex: 1 1 100%;
-  }
-
   .article-main-cta {
     font-size: 0.92rem;
     min-width: 0;
@@ -2750,13 +2710,13 @@ img {
   }
 
   .hero-btn-primary {
-    background: var(--accent);
+    background: #ff5000;
     color: #fff;
     border: none;
   }
 
   .hero-btn-primary:hover {
-    background: var(--accent-hover);
+    background: #e64900;
     transform: translateY(-2px);
     box-shadow: 0 8px 18px rgba(0, 0, 0, 0.18);
   }
