@@ -1828,7 +1828,19 @@ img {
   color: var(--primary);
 }
 
+.article-content h3 {
+  margin: 20px 0 10px;
+  font-size: 1.1rem;
+  line-height: 1.4;
+  font-weight: 700;
+  color: var(--primary);
+}
+
 .article-content ul {
+  margin: 0 0 18px 22px;
+}
+
+.article-content ol {
   margin: 0 0 18px 22px;
 }
 
@@ -1944,6 +1956,14 @@ img {
 
 .article-icon-cta:hover {
   background: rgba(255, 255, 255, 0.24);
+}
+
+.article-longform {
+  margin-top: 42px;
+}
+
+.article-cta-wrap--bottom {
+  margin-top: 40px;
 }
 
 /* ========================================
