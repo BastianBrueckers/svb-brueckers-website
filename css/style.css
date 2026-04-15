@@ -1111,25 +1111,27 @@ img {
 }
 
 .usp-card {
-  background: var(--primary);
+  width: 100%;
+  max-width: 100%;
+  height: 64px;
+  background: linear-gradient(135deg, #1f2937, #111827);
   border-radius: 20px;
-  padding: 16px 18px;
+  padding: 0 18px;
   display: flex;
   align-items: center;
   gap: 14px;
-  border: 2px solid #E07A3A;
-  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.2);
-  min-height: 80px;
-  width: 100%;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
 }
 
 .usp-icon {
-  width: 44px;
-  height: 44px;
-  min-width: 44px;
+  width: 28px;
+  height: 28px;
+  min-width: 28px;
+  flex-shrink: 0;
   border-radius: 50%;
-  background: #E07A3A;
+  background: rgba(224, 122, 58, 0.95);
   color: #fff;
   display: inline-flex;
   align-items: center;
@@ -1137,8 +1139,8 @@ img {
 }
 
 .usp-icon img {
-  width: 26px;
-  height: 26px;
+  width: 18px;
+  height: 18px;
   object-fit: contain;
   display: block;
 }
@@ -1146,27 +1148,29 @@ img {
 .usp-text {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  justify-content: center;
+  gap: 2px;
 }
 
-.usp-text h2 {
-  font-size: 18px;
+.usp-title {
+  font-size: 16px;
+  font-weight: 600;
   line-height: 1.2;
   color: #fff;
-  font-weight: 700;
 }
 
-.usp-text p {
-  font-size: 14px;
-  line-height: 1.3;
-  color: rgba(255, 255, 255, 0.9);
+.usp-subtext {
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.25;
+  color: rgba(255,255,255,0.7);
 }
 
 @media (hover: hover) and (pointer: fine) {
   .usp-card:hover {
     transform: translateY(-3px);
-    border-color: #E07A3A;
-    box-shadow: 0 14px 28px rgba(224, 122, 58, 0.24);
+    border-color: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.28);
   }
 }
 
@@ -1181,22 +1185,22 @@ img {
   }
 
   .usp-card {
-    padding: 14px 15px;
-    gap: 10px;
-    min-height: 74px;
+    height: 64px;
+    padding: 0 16px;
+    gap: 12px;
   }
 
   .usp-icon {
-    width: 40px;
-    height: 40px;
-    min-width: 40px;
+    width: 28px;
+    height: 28px;
+    min-width: 28px;
   }
 
-  .usp-text h2 {
-    font-size: 17px;
+  .usp-title {
+    font-size: 16px;
   }
 
-  .usp-text p {
+  .usp-subtext {
     font-size: 13px;
   }
 }
