@@ -2721,6 +2721,18 @@ img {
   padding: 5px 11px;
 }
 
+.calculator-field--rest .calculator-field-head {
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.calculator-field--rest label,
+.calculator-field--rest .calculator-live-value {
+  text-align: center;
+}
+
 .calculator-input-wrap {
   display: flex;
   align-items: center;
@@ -4123,6 +4135,10 @@ img {
     align-content: start;
     justify-items: stretch;
     min-height: 120px;
+  }
+
+  .calculator-field--rest .calculator-field-head {
+    justify-items: center;
   }
 
   .calculator-live-value {
