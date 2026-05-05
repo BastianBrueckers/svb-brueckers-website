@@ -1510,6 +1510,44 @@ img {
   max-width: 900px;
 }
 
+.faq-page--second {
+  padding-top: 32px;
+}
+
+.faq-block {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 30px 26px;
+  border: 1px solid #d7e2ed;
+  border-radius: 22px;
+  background: linear-gradient(160deg, #fbfdff 0%, #f3f8fd 100%);
+  box-shadow: 0 12px 28px rgba(15, 23, 42, 0.06);
+}
+
+.faq-block-title {
+  margin: 0 0 20px;
+  color: #12253f;
+  font-size: clamp(1.2rem, 1rem + 0.8vw, 1.55rem);
+}
+
+.faq-cta-actions {
+  display: inline-flex;
+  align-items: stretch;
+  gap: 10px;
+}
+
+.faq-phone-cta {
+  display: inline-flex;
+  min-width: 56px;
+  min-height: 48px;
+  padding: 0;
+}
+
+.faq-cta-section--split {
+  padding-top: 4px;
+  padding-bottom: 24px;
+}
+
 .faq-cta-section {
   padding-top: 16px;
   padding-bottom: 88px;
@@ -1548,6 +1586,7 @@ img {
   align-items: center;
   justify-content: center;
   min-width: 220px;
+  min-height: 48px;
 }
 
 /* ---- FAQ ---- */
@@ -1655,6 +1694,23 @@ img {
 }
 
 @media (max-width: 768px) {
+  .faq-block {
+    padding: 24px 16px;
+  }
+
+  .faq-cta-actions {
+    width: 100%;
+  }
+
+  .faq-cta-actions .btn:first-child {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .faq-phone-cta {
+    min-width: 52px;
+  }
+
   .faq-trigger {
     font-size: 0.98rem;
     padding: 18px;
