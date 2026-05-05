@@ -1536,11 +1536,19 @@ img {
   gap: 10px;
 }
 
-.faq-phone-cta {
+.faq-icon-cta {
   display: inline-flex;
-  min-width: 56px;
-  min-height: 48px;
+  width: 64px;
+  min-width: 64px;
+  height: 56px;
+  min-height: 56px;
   padding: 0;
+}
+
+.faq-main-cta {
+  min-width: 280px;
+  height: 56px;
+  min-height: 56px;
 }
 
 .faq-cta-section--split {
@@ -1585,8 +1593,6 @@ img {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: 220px;
-  min-height: 48px;
 }
 
 /* ---- FAQ ---- */
@@ -1702,13 +1708,16 @@ img {
     width: 100%;
   }
 
-  .faq-cta-actions .btn:first-child {
+  .faq-main-cta {
     flex: 1;
     min-width: 0;
   }
 
-  .faq-phone-cta {
+  .faq-icon-cta {
+    width: 52px;
     min-width: 52px;
+    height: 52px;
+    min-height: 52px;
   }
 
   .faq-trigger {
