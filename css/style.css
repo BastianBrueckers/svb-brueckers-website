@@ -1531,24 +1531,45 @@ img {
 }
 
 .faq-cta-actions {
-  display: inline-flex;
+  display: flex;
   align-items: stretch;
-  gap: 10px;
+  gap: 12px;
+  width: 100%;
+  max-width: 420px;
 }
 
-.faq-icon-cta {
+.faq-cta-actions .faq-icon-cta {
   display: inline-flex;
-  width: 64px;
-  min-width: 64px;
-  height: 56px;
-  min-height: 56px;
+  flex: 0 0 54px;
+  width: 54px;
+  min-width: 54px;
+  height: 54px;
+  min-height: 54px;
   padding: 0;
+  border-radius: 20px;
+  color: #fff;
+  line-height: 1;
 }
 
-.faq-main-cta {
-  min-width: 280px;
-  height: 56px;
-  min-height: 56px;
+.faq-cta-actions .faq-icon-cta svg {
+  width: 20px;
+  height: 20px;
+  display: block;
+  flex-shrink: 0;
+}
+
+.faq-cta-actions .faq-main-cta {
+  flex: 1 1 auto;
+  min-width: 0;
+  height: 54px;
+  min-height: 54px;
+  padding: 0 20px;
+  border-radius: 20px;
+  color: #fff;
+  font-weight: 600;
+  line-height: 1;
+  white-space: nowrap;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
 }
 
 .faq-cta-section--split {
@@ -1706,18 +1727,30 @@ img {
 
   .faq-cta-actions {
     width: 100%;
+    max-width: 420px;
+    gap: 12px;
   }
 
-  .faq-main-cta {
-    flex: 1;
+  .faq-cta-actions .faq-main-cta {
+    flex: 1 1 auto;
     min-width: 0;
+    height: 52px;
+    min-height: 52px;
+    padding: 0 16px;
+    border-radius: 12px;
+    font-size: 0.93rem;
+    font-weight: 650;
+    letter-spacing: 0.01em;
+    white-space: nowrap;
   }
 
-  .faq-icon-cta {
+  .faq-cta-actions .faq-icon-cta {
+    flex: 0 0 52px;
     width: 52px;
     min-width: 52px;
     height: 52px;
     min-height: 52px;
+    border-radius: 12px;
   }
 
   .faq-trigger {
@@ -1744,6 +1777,32 @@ img {
 
   .faq-cta-card p {
     font-size: 1rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .faq-cta-card {
+    padding-right: 16px;
+    padding-left: 16px;
+  }
+
+  .faq-cta-actions {
+    gap: 8px;
+  }
+
+  .faq-cta-actions .faq-main-cta {
+    height: 48px;
+    min-height: 48px;
+    padding: 0 10px;
+    font-size: 0.84rem;
+  }
+
+  .faq-cta-actions .faq-icon-cta {
+    flex-basis: 48px;
+    width: 48px;
+    min-width: 48px;
+    height: 48px;
+    min-height: 48px;
   }
 }
 
