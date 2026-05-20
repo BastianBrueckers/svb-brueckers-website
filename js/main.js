@@ -1108,9 +1108,37 @@ function init130Rechner() {
   update();
 }
 
+
+function initDeferredVideos() {
+  var buttons = document.querySelectorAll('[data-video-load]');
+  if (!buttons.length) return;
+
+  buttons.forEach(function (button) {
+    button.addEventListener('click', function () {
+      var card = button.closest('.video-consent-card');
+      if (!card) return;
+      var wrapper = card.querySelector('[data-video-embed]');
+      var placeholder = card.querySelector('[data-video-placeholder]');
+      if (!wrapper || wrapper.dataset.videoLoaded === 'true') return;
+
+      var iframe = document.createElement('iframe');
+      iframe.src = button.dataset.videoSrc;
+      iframe.title = button.dataset.videoTitle || 'YouTube Video';
+      iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+      iframe.allowFullscreen = true;
+
+      wrapper.appendChild(iframe);
+      wrapper.hidden = false;
+      wrapper.dataset.videoLoaded = 'true';
+      if (placeholder) placeholder.hidden = true;
+    });
+  });
+}
+
 function initPageFeatures() {
   initScrollRestorationFix();
   initConsentAndMaps();
+  initDeferredVideos();
   initRatgeberArticleLayoutEnhancements();
   initRatgeberRelatedLinks();
   initRatgeberFaqConversion();
