@@ -19,10 +19,8 @@ window.addEventListener('scroll', function () {
 
 // FAQ Accordion (single-open)
 function initFaqAccordion() {
-  var accordion = document.querySelector('[data-faq-accordion]');
-  if (!accordion) return;
-
-  var items = accordion.querySelectorAll('.faq-item');
+  var accordions = document.querySelectorAll('[data-faq-accordion]');
+  if (!accordions.length) return;
 
   function collapsePanel(panel) {
     panel.style.maxHeight = panel.scrollHeight + 'px';
@@ -59,37 +57,40 @@ function initFaqAccordion() {
     expandPanel(panel);
   }
 
-  items.forEach(function (item) {
-    var panel = item.querySelector('.faq-panel');
-    panel.hidden = false;
-    panel.removeAttribute('hidden');
-    panel.style.maxHeight = '0px';
-    panel.style.opacity = '0';
+  accordions.forEach(function (accordion) {
+    var items = accordion.querySelectorAll('.faq-item');
 
-    var trigger = item.querySelector('.faq-trigger');
-    trigger.addEventListener('click', function () {
-      var isOpen = item.classList.contains('is-open');
+    items.forEach(function (item) {
+      var panel = item.querySelector('.faq-panel');
+      panel.hidden = false;
+      panel.removeAttribute('hidden');
+      panel.style.maxHeight = '0px';
+      panel.style.opacity = '0';
 
-      if (isOpen) {
-        closeItem(item);
-        return;
-      }
+      var trigger = item.querySelector('.faq-trigger');
+      trigger.addEventListener('click', function () {
+        var isOpen = item.classList.contains('is-open');
 
-      items.forEach(function (otherItem) {
-        if (otherItem !== item) {
-          closeItem(otherItem);
+        if (isOpen) {
+          closeItem(item);
+          return;
         }
-      });
 
-      openItem(item);
+        items.forEach(function (otherItem) {
+          if (otherItem !== item) {
+            closeItem(otherItem);
+          }
+        });
+
+        openItem(item);
+      });
     });
   });
 
   window.addEventListener('resize', function () {
-    var openItemElement = accordion.querySelector('.faq-item.is-open .faq-panel');
-    if (openItemElement) {
-      openItemElement.style.maxHeight = openItemElement.scrollHeight + 'px';
-    }
+    document.querySelectorAll('[data-faq-accordion] .faq-item.is-open .faq-panel').forEach(function (panel) {
+      panel.style.maxHeight = panel.scrollHeight + 'px';
+    });
   });
 }
 
