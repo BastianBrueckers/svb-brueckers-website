@@ -5106,3 +5106,19 @@ img {
     font-size: 1.18rem;
   }
 }
+
+
+/* Startseite: kompakte Höhe der drei Detailseiten-Verweise */
+.homepage-detail-teaser {
+  min-height: 210px;
+  padding-top: 32px;
+  padding-bottom: 32px;
+}
+
+@media (max-width: 768px) {
+  .homepage-detail-teaser {
+    min-height: 255px;
+    padding-top: 32px;
+    padding-bottom: 32px;
+  }
+}
