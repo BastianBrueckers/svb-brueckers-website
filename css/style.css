@@ -5691,3 +5691,89 @@ img {
     margin: -22px -22px 17px;
   }
 }
+
+
+/* Erfahrungen: Darstellung der Bilder wie bei den Kundenstimmen auf der Startseite */
+.experience-review-grid.testimonials {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.experience-review-card.testimonial {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 24px;
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: none;
+}
+
+.experience-review-card.testimonial .testimonial-image {
+  min-height: 180px;
+}
+
+.experience-review-card.testimonial .testimonial-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  aspect-ratio: auto;
+  border-radius: 0;
+  object-fit: cover;
+}
+
+.experience-review-card.testimonial .testimonial-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 24px 24px 24px 0;
+}
+
+.experience-review-card.testimonial .testimonial-text {
+  margin: 0 0 16px;
+}
+
+.experience-review-author {
+  display: grid;
+  gap: 3px;
+}
+
+.experience-review-author strong {
+  color: var(--primary);
+  font-size: 1.1rem;
+}
+
+.experience-review-author span {
+  color: var(--text-light);
+  font-size: 0.94rem;
+}
+
+.experience-review-author small {
+  margin-top: 5px;
+  color: var(--accent);
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+@media (max-width: 600px) {
+  .experience-review-card.testimonial {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .experience-review-card.testimonial .testimonial-image {
+    min-height: 0;
+  }
+
+  .experience-review-card.testimonial .testimonial-image img {
+    height: auto;
+  }
+
+  .experience-review-card.testimonial .testimonial-content {
+    padding: 22px;
+  }
+}
