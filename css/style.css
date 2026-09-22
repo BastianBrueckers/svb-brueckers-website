@@ -5265,3 +5265,45 @@ img {
     right: 16px;
   }
 }
+
+
+/* Startseite: Ablauf-Teaser nochmals verdichten */
+.homepage-detail-teaser--process {
+  min-height: 103px;
+  padding-top: 14px;
+  padding-bottom: 14px;
+}
+
+.homepage-detail-teaser--process .process-title {
+  margin-bottom: 4px;
+  font-size: clamp(1.35rem, 2vw, 1.65rem);
+  line-height: 1.18;
+}
+
+.homepage-detail-teaser--process .process-intro {
+  margin-bottom: 8px;
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+
+.homepage-detail-teaser--process .homepage-services-cta {
+  margin-top: 8px;
+}
+
+@media (max-width: 768px) {
+  .homepage-detail-teaser--process {
+    min-height: 125px;
+    padding-top: 14px;
+    padding-bottom: 14px;
+  }
+
+  .homepage-detail-teaser--process .process-title {
+    font-size: 1.45rem;
+    line-height: 1.18;
+  }
+
+  .homepage-detail-teaser--process .process-intro {
+    font-size: 0.9rem;
+    line-height: 1.42;
+  }
+}
