@@ -4,7 +4,25 @@ function toggleMenu() {
 }
 
 function closeMenu() {
-  document.getElementById('nav').classList.remove('open');
+  var nav = document.getElementById('nav');
+  if (nav) nav.classList.remove('open');
+}
+
+function initLogoHomeNavigation() {
+  var logoLinks = document.querySelectorAll('a.logo');
+
+  logoLinks.forEach(function (logoLink) {
+    logoLink.addEventListener('click', function (event) {
+      closeMenu();
+
+      var isHomepage = window.location.pathname === '/' || window.location.pathname === '/index.html';
+      if (isHomepage) {
+        event.preventDefault();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        history.replaceState(null, '', '/');
+      }
+    });
+  });
 }
 
 // Sticky Header Shadow on Scroll
@@ -1137,6 +1155,7 @@ function initDeferredVideos() {
 }
 
 function initPageFeatures() {
+  initLogoHomeNavigation();
   initScrollRestorationFix();
   initConsentAndMaps();
   initDeferredVideos();
