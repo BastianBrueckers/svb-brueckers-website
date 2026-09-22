@@ -13,13 +13,18 @@ function initLogoHomeNavigation() {
 
   logoLinks.forEach(function (logoLink) {
     logoLink.addEventListener('click', function (event) {
+      var nav = document.getElementById('nav');
+      var wasMenuOpen = Boolean(nav && nav.classList.contains('open'));
       closeMenu();
 
       var isHomepage = window.location.pathname === '/' || window.location.pathname === '/index.html';
       if (isHomepage) {
         event.preventDefault();
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-        history.replaceState(null, '', '/');
+
+        if (!wasMenuOpen) {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+          history.replaceState(null, '', '/');
+        }
       }
     });
   });
