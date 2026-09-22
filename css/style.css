@@ -5777,3 +5777,26 @@ img {
     padding: 22px;
   }
 }
+
+
+/* Startseite: drei Detail-Teaser einheitlich hoch */
+#leistungen.homepage-detail-teaser,
+.homepage-detail-teaser--process,
+#vorteile.homepage-detail-teaser {
+  box-sizing: border-box;
+  min-height: 270px;
+  height: 270px;
+  padding-top: 24px;
+  padding-bottom: 24px;
+}
+
+@media (max-width: 768px) {
+  #leistungen.homepage-detail-teaser,
+  .homepage-detail-teaser--process,
+  #vorteile.homepage-detail-teaser {
+    min-height: 260px;
+    height: 260px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
+}
