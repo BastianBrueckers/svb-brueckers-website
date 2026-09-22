@@ -5672,3 +5672,22 @@ img {
     font-size: 0.66rem;
   }
 }
+
+
+/* Erfahrungen: Schadenbild direkt an der jeweiligen Bewertung */
+.experience-review-image {
+  display: block;
+  width: calc(100% + 50px);
+  max-width: none;
+  margin: -25px -25px 18px;
+  aspect-ratio: 3 / 2;
+  border-radius: calc(var(--radius) - 1px) calc(var(--radius) - 1px) 0 0;
+  object-fit: cover;
+}
+
+@media (max-width: 768px) {
+  .experience-review-image {
+    width: calc(100% + 44px);
+    margin: -22px -22px 17px;
+  }
+}
