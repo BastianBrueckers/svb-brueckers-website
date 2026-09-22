@@ -5453,3 +5453,222 @@ img {
     right: 16px;
   }
 }
+
+
+/* Erfahrungen: Bewertungen und dokumentierte Schadensfälle */
+.experiences-hero .services-page-hero-inner {
+  max-width: 780px;
+}
+
+.experiences-google-note {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 28px;
+  margin-bottom: 28px;
+  padding: 26px 30px;
+  border: 1px solid #d8e4f0;
+  border-radius: var(--radius);
+  background: #fff;
+  box-shadow: 0 10px 24px rgba(15, 35, 58, 0.07);
+}
+
+.experience-label {
+  margin: 0 0 7px;
+  color: var(--accent);
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+}
+
+.experiences-google-note h2 {
+  margin: 0 0 7px;
+  color: var(--primary);
+  font-family: var(--font-main);
+  font-size: var(--font-size-h3);
+  line-height: var(--line-height-h3);
+}
+
+.experiences-google-note p:not(.experience-label) {
+  margin: 0;
+  color: var(--text-light);
+}
+
+.experiences-google-action {
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+}
+
+.experience-stars {
+  color: var(--accent);
+  font-size: 1.05rem;
+  letter-spacing: 0.12em;
+  line-height: 1;
+}
+
+.experiences-google-action .btn {
+  padding: 10px 16px;
+  white-space: nowrap;
+}
+
+.experience-review-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.experience-review-card {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  padding: 25px;
+  border: 1px solid #d8e4f0;
+  border-radius: var(--radius);
+  background: #fff;
+  box-shadow: 0 8px 20px rgba(15, 35, 58, 0.06);
+}
+
+.experience-review-text {
+  margin: 16px 0 22px;
+  color: var(--text);
+  font-size: 0.98rem;
+  line-height: 1.65;
+}
+
+.experience-review-card footer {
+  display: grid;
+  gap: 3px;
+  margin-top: auto;
+  padding-top: 16px;
+  border-top: 1px solid #e4ebf2;
+}
+
+.experience-review-card footer strong {
+  color: var(--primary);
+}
+
+.experience-review-card footer span,
+.experience-review-card footer small {
+  color: var(--text-light);
+  font-size: 0.88rem;
+}
+
+.experience-review-card footer small {
+  margin-top: 5px;
+  color: var(--accent);
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.experience-gallery {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.experience-image-card {
+  overflow: hidden;
+  margin: 0;
+  border: 1px solid #d8e4f0;
+  border-radius: var(--radius);
+  background: #fff;
+  box-shadow: 0 8px 20px rgba(15, 35, 58, 0.06);
+}
+
+.experience-image-card img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+}
+
+.experience-image-card figcaption {
+  padding: 13px 16px;
+  color: var(--primary);
+  font-size: 0.92rem;
+  font-weight: 700;
+}
+
+.experience-home-teaser .process-section-header {
+  margin-bottom: 0;
+}
+
+.experience-home-eyebrow {
+  margin: 0 0 3px;
+  color: var(--accent);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  line-height: 1.2;
+}
+
+.experience-home-teaser .process-title {
+  margin-bottom: 4px;
+}
+
+.experience-home-teaser .process-intro {
+  margin-bottom: 8px;
+}
+
+.experience-home-teaser .homepage-services-cta {
+  margin-top: 8px;
+}
+
+@media (max-width: 900px) {
+  .experience-review-grid,
+  .experience-gallery {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .experience-review-card:last-child {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 768px) {
+  .experiences-google-note {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 18px;
+    padding: 22px;
+  }
+
+  .experiences-google-action {
+    align-items: stretch;
+  }
+
+  .experiences-google-action .experience-stars {
+    text-align: center;
+  }
+
+  .experiences-google-action .btn {
+    width: 100%;
+    white-space: normal;
+  }
+
+  .experience-review-grid,
+  .experience-gallery {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .experience-review-card:last-child {
+    grid-column: auto;
+  }
+
+  .experience-review-card {
+    padding: 22px;
+  }
+
+  .experience-home-teaser .process-title {
+    font-size: 1.45rem;
+  }
+
+  .experience-home-eyebrow {
+    font-size: 0.66rem;
+  }
+}
