@@ -1,11 +1,32 @@
 // Mobile Menu Toggle
+function syncMenuToggleState(isOpen) {
+  var toggle = document.querySelector('.menu-toggle');
+  if (!toggle) return;
+  toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+  toggle.setAttribute('aria-label', isOpen ? 'Menü schließen' : 'Menü öffnen');
+}
+
+function closeUnifiedMenuGroups() {
+  document.querySelectorAll('.nav-group.is-open').forEach(function (group) {
+    group.classList.remove('is-open');
+    var button = group.querySelector('.nav-group-toggle');
+    if (button) button.setAttribute('aria-expanded', 'false');
+  });
+}
+
 function toggleMenu() {
-  document.getElementById('nav').classList.toggle('open');
+  var nav = document.getElementById('nav');
+  if (!nav) return;
+  var isOpen = nav.classList.toggle('open');
+  syncMenuToggleState(isOpen);
+  if (!isOpen) closeUnifiedMenuGroups();
 }
 
 function closeMenu() {
   var nav = document.getElementById('nav');
   if (nav) nav.classList.remove('open');
+  closeUnifiedMenuGroups();
+  syncMenuToggleState(false);
 }
 
 function initLogoHomeNavigation() {
@@ -29,6 +50,93 @@ function initLogoHomeNavigation() {
     });
   });
 }
+
+// Einheitliches Hamburger-Menü auf allen Seiten
+function initUnifiedMobileMenu() {
+  var nav = document.getElementById('nav');
+  var menuToggle = document.querySelector('.menu-toggle');
+  if (!nav || !menuToggle || !window.matchMedia) return;
+
+  var mobileQuery = window.matchMedia('(max-width: 768px)');
+  var originalMarkup = nav.innerHTML;
+
+  function setGroupState(group, shouldOpen) {
+    nav.querySelectorAll('.nav-group').forEach(function (otherGroup) {
+      var isActive = otherGroup === group && shouldOpen;
+      otherGroup.classList.toggle('is-open', isActive);
+      var otherButton = otherGroup.querySelector('.nav-group-toggle');
+      if (otherButton) otherButton.setAttribute('aria-expanded', isActive ? 'true' : 'false');
+    });
+  }
+
+  function bindUnifiedMenu() {
+    nav.querySelectorAll('.nav-group-toggle').forEach(function (button) {
+      button.addEventListener('click', function () {
+        var group = button.closest('.nav-group');
+        setGroupState(group, !group.classList.contains('is-open'));
+      });
+    });
+
+    nav.querySelectorAll('[data-menu-link]').forEach(function (link) {
+      link.addEventListener('click', function () {
+        closeMenu();
+      });
+    });
+  }
+
+  function renderMenu() {
+    if (!mobileQuery.matches) {
+      if (nav.dataset.unifiedMenu === 'true') {
+        nav.innerHTML = originalMarkup;
+        delete nav.dataset.unifiedMenu;
+      }
+      closeMenu();
+      return;
+    }
+
+    if (nav.dataset.unifiedMenu === 'true') return;
+
+    nav.innerHTML =
+      '<a class="nav-main-link" data-menu-link href="/so-funktioniert-es/">So funktioniert’s</a>' +
+      '<div class="nav-group">' +
+        '<button class="nav-group-toggle" type="button" aria-expanded="false" aria-controls="nav-about-submenu">' +
+          '<span>Über mich</span><span class="nav-group-symbol" aria-hidden="true">+</span>' +
+        '</button>' +
+        '<div class="nav-submenu" id="nav-about-submenu"><div class="nav-submenu-inner">' +
+          '<a data-menu-link href="/#ueber-mich">Über mich</a>' +
+          '<a data-menu-link href="/leistungen/">Meine Leistungen</a>' +
+          '<a data-menu-link href="/ihre-vorteile/">Ihre Vorteile</a>' +
+          '<a data-menu-link href="/#einzugsgebiet">Einzugsgebiet / Vor-Ort-Service</a>' +
+        '</div></div>' +
+      '</div>' +
+      '<a class="nav-main-link" data-menu-link href="/erfahrungen/">Kundenstimmen</a>' +
+      '<div class="nav-group">' +
+        '<button class="nav-group-toggle" type="button" aria-expanded="false" aria-controls="nav-help-submenu">' +
+          '<span>Soforthilfe</span><span class="nav-group-symbol" aria-hidden="true">+</span>' +
+        '</button>' +
+        '<div class="nav-submenu" id="nav-help-submenu"><div class="nav-submenu-inner">' +
+          '<a data-menu-link href="/faq/">FAQ</a>' +
+          '<a data-menu-link href="/ratgeber/">Ratgeber</a>' +
+          '<a data-menu-link href="/ratgeber/130-prozent-rechner/">130%-Rechner</a>' +
+        '</div></div>' +
+      '</div>' +
+      '<a class="nav-main-link nav-main-link--contact" data-menu-link href="/#kontakt">Kontakt</a>';
+
+    nav.dataset.unifiedMenu = 'true';
+    menuToggle.setAttribute('aria-controls', 'nav');
+    syncMenuToggleState(nav.classList.contains('open'));
+    bindUnifiedMenu();
+  }
+
+  renderMenu();
+
+  if (mobileQuery.addEventListener) {
+    mobileQuery.addEventListener('change', renderMenu);
+  } else if (mobileQuery.addListener) {
+    mobileQuery.addListener(renderMenu);
+  }
+}
+
 
 // Sticky Header Shadow on Scroll
 window.addEventListener('scroll', function () {
@@ -1161,6 +1269,7 @@ function initDeferredVideos() {
 
 function initPageFeatures() {
   initLogoHomeNavigation();
+  initUnifiedMobileMenu();
   initScrollRestorationFix();
   initConsentAndMaps();
   initDeferredVideos();
