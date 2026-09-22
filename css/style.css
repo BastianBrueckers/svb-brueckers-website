@@ -5122,3 +5122,33 @@ img {
     padding-bottom: 32px;
   }
 }
+
+
+/* Startseite: blaue Verweisbereiche vollflächig, Buttons kompakter */
+.homepage-detail-teaser.section-dark {
+  width: 100vw;
+  max-width: none;
+  margin-right: calc(50% - 50vw);
+  margin-left: calc(50% - 50vw);
+  border-radius: 0;
+}
+
+.homepage-teaser-button {
+  width: auto;
+  min-width: 220px;
+  min-height: 56px;
+  padding: 11px 24px;
+  border-radius: 24px;
+  font-size: 1.05rem;
+}
+
+@media (max-width: 768px) {
+  .homepage-teaser-button {
+    width: auto;
+    min-width: 200px;
+    min-height: 54px;
+    padding: 10px 22px;
+    border-radius: 23px;
+    font-size: 1.02rem;
+  }
+}
