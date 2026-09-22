@@ -5022,3 +5022,26 @@ img {
     font-size: 0.98rem;
   }
 }
+
+
+/* Startseite: drei Detailseiten-Verweise in gleicher Höhe */
+.homepage-detail-teaser {
+  display: flex;
+  align-items: center;
+  min-height: 440px;
+}
+
+.homepage-detail-teaser > .container {
+  width: 100%;
+}
+
+.about-text .about-copy {
+  text-align: justify;
+  hyphens: auto;
+}
+
+@media (max-width: 768px) {
+  .homepage-detail-teaser {
+    min-height: 568px;
+  }
+}
