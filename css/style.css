@@ -5045,3 +5045,64 @@ img {
     min-height: 568px;
   }
 }
+
+
+/* Startseite: kompakte, einheitliche Detailseiten-Verweise */
+.homepage-detail-teaser {
+  min-height: 420px;
+}
+
+.homepage-teaser-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: min(100%, 560px);
+  min-height: 72px;
+  padding: 14px 28px;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  border-radius: 30px;
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 12px 28px rgba(4, 19, 39, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.16);
+  color: #fff;
+  font-family: var(--font-main);
+  font-size: clamp(1.15rem, 1.05rem + 0.4vw, 1.45rem);
+  font-weight: 750;
+  letter-spacing: 0.01em;
+  line-height: 1.2;
+  text-decoration: none;
+  transition: transform 0.22s ease, background 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
+}
+
+.homepage-teaser-button:hover {
+  transform: translateY(-2px);
+  border-color: rgba(255, 255, 255, 0.85);
+  background: rgba(255, 255, 255, 0.16);
+  box-shadow: 0 16px 32px rgba(4, 19, 39, 0.24), inset 0 1px 0 rgba(255, 255, 255, 0.24);
+}
+
+.homepage-detail-teaser:not(.section-dark) .homepage-teaser-button {
+  border-color: rgba(19, 45, 81, 0.32);
+  background: #fff;
+  box-shadow: 0 10px 22px rgba(19, 45, 81, 0.12);
+  color: var(--primary);
+}
+
+.homepage-detail-teaser:not(.section-dark) .homepage-teaser-button:hover {
+  border-color: var(--primary);
+  background: var(--primary);
+  box-shadow: 0 15px 28px rgba(19, 45, 81, 0.24);
+  color: #fff;
+}
+
+@media (max-width: 768px) {
+  .homepage-detail-teaser {
+    min-height: 510px;
+  }
+
+  .homepage-teaser-button {
+    min-height: 68px;
+    width: min(100%, 560px);
+    border-radius: 27px;
+    font-size: 1.18rem;
+  }
+}
