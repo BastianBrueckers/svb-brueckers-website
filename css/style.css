@@ -6007,22 +6007,22 @@ img {
   line-height: var(--line-height-h2);
 }
 
-.experiences-reviews .experience-stars {
+.experiences-reviews .experiences-google-note .experience-stars {
   margin-top: 14px;
   color: var(--accent);
   font-size: 1.25rem;
   letter-spacing: 0.14em;
 }
 
-.experience-google-fallback {
-  margin: 8px 0 0;
+.experiences-reviews .experiences-google-note .experience-google-fallback {
+  margin: 6px 0 0;
   color: var(--primary);
   font-size: 0.94rem;
   font-weight: 650;
 }
 
-.experiences-reviews .experience-google-copy {
-  margin: 8px 0 0;
+.experiences-reviews .experiences-google-note .experience-google-copy {
+  margin: 4px 0 0;
   color: var(--text-light);
   font-size: 0.96rem;
   line-height: 1.5;
@@ -6031,21 +6031,36 @@ img {
 .experiences-reviews .experience-google-link {
   margin-top: 18px;
   padding: 10px 18px;
+  gap: 8px;
+  color: #fff;
+  background: var(--primary);
+  border-color: var(--primary);
+}
+
+.experiences-reviews .experience-google-link:hover {
+  background: var(--primary-light);
+  border-color: var(--primary-light);
 }
 
 @media (max-width: 768px) {
   .experiences-reviews .experiences-google-note {
     gap: 0;
     margin-bottom: 20px;
-    padding: 24px 20px;
+    padding: 20px;
   }
 
-  .experiences-reviews .experience-stars {
+  .experiences-reviews .experiences-google-note h2 {
+    font-size: clamp(1.35rem, 4vw, 1.65rem);
+    line-height: 1.25;
+  }
+
+  .experiences-reviews .experiences-google-note .experience-stars {
     margin-top: 12px;
   }
 
   .experiences-reviews .experience-google-link {
     width: 100%;
-    margin-top: 16px;
+    margin-top: 12px;
+    min-height: 44px;
   }
 }
