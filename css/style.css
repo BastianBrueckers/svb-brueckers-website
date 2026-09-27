@@ -6170,3 +6170,140 @@ img {
     font-size: clamp(0.82rem, 1.05vw, 0.93rem);
   }
 }
+
+/* Desktop: zwei zentrierte Navigationsebenen mit aufklappbaren Themen. */
+@media (min-width: 769px) {
+  html.desktop-nav-active { scroll-padding-top: 122px; }
+  .desktop-nav-active body { padding-top: 42px; }
+  .desktop-nav-active .article-progress { top: 112px; }
+  .header[data-desktop-nav] { height: 112px; }
+  .header[data-desktop-nav] .header-inner {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-rows: 64px 48px;
+    gap: 0;
+    max-width: 1100px;
+    padding-inline: 24px;
+  }
+  .header[data-desktop-nav] .logo { justify-self: start; }
+  .header[data-desktop-nav] .menu-toggle {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 12px;
+    min-height: 44px;
+    border: 1px solid rgba(255,255,255,.4);
+    border-radius: 8px;
+    color: #fff;
+    font: inherit;
+  }
+  .header[data-desktop-nav] .menu-toggle .desktop-menu-bars {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    width: 24px;
+    height: auto;
+    background: transparent;
+  }
+  .header[data-desktop-nav] .menu-toggle .desktop-menu-label {
+    width: auto;
+    height: auto;
+    background: transparent;
+    font-size: .93rem;
+  }
+  .header[data-desktop-nav] .nav {
+    display: block;
+    grid-column: 1 / -1;
+    width: 100%;
+    padding: 0;
+    overflow: visible;
+    border-top: 1px solid rgba(255,255,255,.16);
+  }
+  .header[data-desktop-nav] .desktop-nav-links {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(22px, 3vw, 40px);
+    height: 48px;
+  }
+  .header[data-desktop-nav] .desktop-nav-links a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    white-space: nowrap;
+    font-size: .93rem;
+  }
+  .header[data-desktop-nav] .desktop-nav-panel {
+    position: absolute;
+    top: 100%;
+    left: 24px;
+    right: 24px;
+    padding: 18px 24px 24px;
+    max-height: calc(100dvh - 128px);
+    overflow-y: auto;
+    background: #fff;
+    color: var(--primary);
+    border: 1px solid var(--border);
+    border-radius: 0 0 14px 14px;
+    box-shadow: 0 18px 40px rgba(15,23,42,.2);
+  }
+  .header[data-desktop-nav] .desktop-nav-panel[hidden] { display: none; }
+  .header[data-desktop-nav] .desktop-nav-panel-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+    font-weight: 650;
+  }
+  .header[data-desktop-nav] .desktop-nav-close {
+    min-width: 44px;
+    min-height: 44px;
+    padding: 0;
+    background: transparent;
+    color: var(--primary);
+    border: 0;
+    border-radius: 8px;
+    font: inherit;
+    font-size: 1.8rem;
+    cursor: pointer;
+  }
+  .header[data-desktop-nav] .desktop-nav-columns {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0,1fr));
+    gap: 28px;
+    align-items: start;
+  }
+  .header[data-desktop-nav] .desktop-nav-group summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    min-height: 44px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+    list-style: none;
+    color: var(--primary);
+    font-weight: 700;
+    cursor: pointer;
+  }
+  .header[data-desktop-nav] .desktop-nav-group summary::-webkit-details-marker { display: none; }
+  .header[data-desktop-nav] .desktop-group-symbol::before { content: "+"; }
+  .header[data-desktop-nav] .desktop-nav-group[open] .desktop-group-symbol::before { content: "×"; }
+  .header[data-desktop-nav] .desktop-group-symbol { color: var(--accent); font-size: 1.45rem; }
+  .header[data-desktop-nav] .desktop-nav-group a {
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 8px 0;
+    font-size: .93rem;
+    white-space: normal;
+    opacity: 1;
+  }
+  .header[data-desktop-nav] .desktop-nav-group a:hover { color: var(--accent-hover); }
+  .header[data-desktop-nav] :is(a, button, summary):focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+  }
+}

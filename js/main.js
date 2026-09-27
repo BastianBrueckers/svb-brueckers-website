@@ -17,6 +17,13 @@ function closeUnifiedMenuGroups() {
 function toggleMenu() {
   var nav = document.getElementById('nav');
   if (!nav) return;
+  if (nav.dataset.desktopMenu === 'true') {
+    var panel = document.getElementById('desktop-nav-panel');
+    var shouldOpen = panel.hidden;
+    panel.hidden = !shouldOpen;
+    syncMenuToggleState(shouldOpen);
+    return;
+  }
   var isOpen = nav.classList.toggle('open');
   syncMenuToggleState(isOpen);
   if (!isOpen) closeUnifiedMenuGroups();
@@ -25,6 +32,8 @@ function toggleMenu() {
 function closeMenu() {
   var nav = document.getElementById('nav');
   if (nav) nav.classList.remove('open');
+  var desktopPanel = document.getElementById('desktop-nav-panel');
+  if (desktopPanel) desktopPanel.hidden = true;
   closeUnifiedMenuGroups();
   syncMenuToggleState(false);
 }
@@ -59,6 +68,56 @@ function initUnifiedMobileMenu() {
 
   var mobileQuery = window.matchMedia('(max-width: 768px)');
   var originalMarkup = nav.innerHTML;
+  var originalToggleMarkup = menuToggle.innerHTML;
+
+  function renderDesktopMenu() {
+    if (nav.dataset.desktopMenu === 'true') return;
+    nav.dataset.desktopMenu = 'true';
+    document.documentElement.classList.add('desktop-nav-active');
+    document.querySelector('.header').setAttribute('data-desktop-nav', '');
+    menuToggle.innerHTML = '<span class="desktop-menu-bars" aria-hidden="true"><span></span><span></span><span></span></span><span class="desktop-menu-label">Menü</span>';
+    menuToggle.setAttribute('aria-controls', 'desktop-nav-panel');
+    nav.innerHTML =
+      '<div class="desktop-nav-links">' +
+        '<a href="/leistungen/">Leistungen</a>' +
+        '<a href="/so-funktioniert-es/">So funktioniert’s</a>' +
+        '<a href="/#ueber-mich">Über mich</a>' +
+        '<a href="/erfahrungen/">Kundenstimmen</a>' +
+        '<a href="/#kontakt">Kontakt</a>' +
+      '</div>' +
+      '<div id="desktop-nav-panel" class="desktop-nav-panel" hidden>' +
+        '<div class="desktop-nav-panel-heading"><span>Alle Themen</span><button type="button" class="desktop-nav-close" aria-label="Menü schließen">×</button></div>' +
+        '<div class="desktop-nav-columns">' +
+          '<details class="desktop-nav-group" open><summary>Gutachten<span class="desktop-group-symbol" aria-hidden="true"></span></summary><div>' +
+            '<a href="/leistungen/">Leistungen</a><a href="/so-funktioniert-es/">So funktioniert’s</a><a href="/ihre-vorteile/">Ihre Vorteile</a>' +
+          '</div></details>' +
+          '<details class="desktop-nav-group" open><summary>Über mich<span class="desktop-group-symbol" aria-hidden="true"></span></summary><div>' +
+            '<a href="/#ueber-mich">Über mich</a><a href="/erfahrungen/">Kundenstimmen</a><a href="/#einzugsgebiet">Einzugsgebiet</a>' +
+          '</div></details>' +
+          '<details class="desktop-nav-group" open><summary>Soforthilfe<span class="desktop-group-symbol" aria-hidden="true"></span></summary><div>' +
+            '<a href="/faq/">FAQ</a><a href="/ratgeber/">Ratgeber</a><a href="/ratgeber/130-prozent-rechner/">130%-Rechner</a><a href="/#kontakt">Kontakt</a>' +
+          '</div></details>' +
+        '</div>' +
+      '</div>';
+    nav.querySelector('.desktop-nav-close').addEventListener('click', function () {
+      closeMenu();
+      menuToggle.focus();
+    });
+    nav.querySelectorAll('a').forEach(function (link) {
+      link.addEventListener('click', closeMenu);
+    });
+  }
+
+  document.addEventListener('keydown', function (event) {
+    var panel = document.getElementById('desktop-nav-panel');
+    if (event.key === 'Escape' && panel && !panel.hidden) {
+      closeMenu();
+      menuToggle.focus();
+    }
+  });
+  document.addEventListener('click', function (event) {
+    if (nav.dataset.desktopMenu === 'true' && !nav.contains(event.target) && !menuToggle.contains(event.target)) closeMenu();
+  });
 
   function setGroupState(group, shouldOpen) {
     nav.querySelectorAll('.nav-group').forEach(function (otherGroup) {
@@ -90,10 +149,18 @@ function initUnifiedMobileMenu() {
         nav.innerHTML = originalMarkup;
         delete nav.dataset.unifiedMenu;
       }
+      renderDesktopMenu();
       closeMenu();
       return;
     }
 
+    if (nav.dataset.desktopMenu === 'true') {
+      delete nav.dataset.desktopMenu;
+      document.documentElement.classList.remove('desktop-nav-active');
+      document.querySelector('.header').removeAttribute('data-desktop-nav');
+      menuToggle.innerHTML = originalToggleMarkup;
+      nav.innerHTML = originalMarkup;
+    }
     if (nav.dataset.unifiedMenu === 'true') return;
 
     nav.innerHTML =
