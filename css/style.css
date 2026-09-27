@@ -6132,3 +6132,41 @@ img {
     font-size: 0.93rem;
   }
 }
+
+
+/* Desktop-Kopfzeile: Logo und Menüpunkte bleiben einzeilig. */
+@media (min-width: 769px) {
+  .header .header-inner {
+    width: 100%;
+    max-width: 1440px;
+    min-width: 0;
+    gap: clamp(16px, 2vw, 32px);
+    padding-inline: clamp(16px, 2vw, 32px);
+  }
+
+  .header .logo {
+    flex: 0 0 auto;
+    margin-right: 0;
+    white-space: nowrap;
+  }
+
+  .header .logo-img {
+    flex-shrink: 0;
+  }
+
+  .header .nav {
+    flex: 0 1 auto;
+    min-width: 0;
+    align-items: center;
+    flex-wrap: nowrap;
+    gap: clamp(10px, 1.2vw, 20px);
+    overflow-x: auto;
+    padding-block: 6px;
+  }
+
+  .header .nav a {
+    flex: 0 0 auto;
+    white-space: nowrap;
+    font-size: clamp(0.82rem, 1.05vw, 0.93rem);
+  }
+}
