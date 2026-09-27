@@ -6064,3 +6064,71 @@ img {
     min-height: 44px;
   }
 }
+
+
+/* Einheitliche Kontaktleisten auf den Inhaltsseiten */
+.contact-actions[data-contact-actions] {
+  display: grid;
+  grid-template-columns: 56px minmax(0, 1fr) 56px;
+  align-items: stretch;
+  gap: 12px;
+  width: 100%;
+  min-width: 0;
+  max-width: 560px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.contact-actions[data-contact-actions] > .contact-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  order: 0;
+  width: 100%;
+  min-width: 0;
+  max-width: none;
+  height: auto;
+  min-height: 56px;
+  margin: 0;
+  padding: 10px 8px;
+  border: 0;
+  border-radius: 16px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.25;
+  text-align: center;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+.contact-actions[data-contact-actions] > .contact-action:hover {
+  background: var(--accent-hover);
+}
+
+.contact-actions[data-contact-actions] > .contact-action:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 4px;
+}
+
+.contact-actions[data-contact-actions] > .contact-action svg {
+  display: block;
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+}
+
+@media (max-width: 768px) {
+  .contact-actions[data-contact-actions] {
+    grid-template-columns: 48px minmax(0, 1fr) 48px;
+    gap: 8px;
+  }
+
+  .contact-actions[data-contact-actions] > .contact-action {
+    min-height: 48px;
+    padding: 8px 4px;
+    border-radius: 14px;
+    font-size: 0.93rem;
+  }
+}
