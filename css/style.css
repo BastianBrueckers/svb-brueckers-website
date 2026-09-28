@@ -6319,3 +6319,31 @@ img {
     display: none;
   }
 }
+
+/* Startseite: Kontaktbutton nach dem ersten Bereich, auch auf Mobilgeräten. */
+.contact-fab[data-home-contact-fab] {
+  display: inline-flex;
+  min-height: 44px;
+  background: var(--accent);
+  z-index: 90;
+}
+.contact-fab[data-home-contact-fab][hidden] {
+  display: none;
+}
+.contact-fab[data-home-contact-fab]:hover {
+  background: var(--accent-hover);
+}
+.contact-fab[data-home-contact-fab]:focus-visible {
+  outline: 3px solid var(--primary);
+  outline-offset: 3px;
+}
+@media (max-width: 768px) {
+  .contact-fab[data-home-contact-fab] {
+    right: 12px;
+    bottom: calc(12px + env(safe-area-inset-bottom));
+    left: auto;
+    min-height: 48px;
+    padding: 0 18px;
+    font-size: .9rem;
+  }
+}

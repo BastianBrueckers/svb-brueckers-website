@@ -1334,7 +1334,39 @@ function initDeferredVideos() {
   });
 }
 
+
+// Startseiten-Kontaktbutton erst zeigen, wenn der Hero unter der Kopfzeile verschwunden ist.
+function initHomeContactFab() {
+  var button = document.querySelector('[data-home-contact-fab]');
+  var hero = document.querySelector('.hero');
+  var header = document.querySelector('.header');
+  if (!button || !hero) return;
+
+  var scheduled = false;
+  function updateVisibility() {
+    scheduled = false;
+    var headerBottom = header ? header.getBoundingClientRect().bottom : 0;
+    button.hidden = hero.getBoundingClientRect().bottom > headerBottom;
+  }
+  function scheduleUpdate() {
+    if (scheduled) return;
+    scheduled = true;
+    window.requestAnimationFrame(updateVisibility);
+  }
+
+  window.addEventListener('scroll', scheduleUpdate, { passive: true });
+  window.addEventListener('resize', scheduleUpdate);
+  window.addEventListener('pageshow', scheduleUpdate);
+  if (window.ResizeObserver) {
+    var observer = new ResizeObserver(scheduleUpdate);
+    observer.observe(hero);
+    if (header) observer.observe(header);
+  }
+  updateVisibility();
+}
+
 function initPageFeatures() {
+  initHomeContactFab();
   initLogoHomeNavigation();
   initUnifiedMobileMenu();
   initScrollRestorationFix();
