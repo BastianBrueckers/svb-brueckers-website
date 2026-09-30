@@ -2,13 +2,17 @@
 function syncMenuToggleState(isOpen) {
   var toggle = document.querySelector('.menu-toggle');
   if (!toggle) return;
+  var nav = document.getElementById('nav');
+  if (nav) nav.inert = nav.dataset.unifiedMenu === 'true' && !isOpen;
   toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
   toggle.setAttribute('aria-label', isOpen ? 'Menü schließen' : 'Menü öffnen');
 }
 
 function closeUnifiedMenuGroups() {
-  document.querySelectorAll('.nav-group.is-open').forEach(function (group) {
+  document.querySelectorAll('.nav-group').forEach(function (group) {
     group.classList.remove('is-open');
+    var submenu = group.querySelector('.nav-submenu');
+    if (submenu) submenu.inert = true;
     var button = group.querySelector('.nav-group-toggle');
     if (button) button.setAttribute('aria-expanded', 'false');
   });
@@ -70,6 +74,16 @@ function initUnifiedMobileMenu() {
   var originalMarkup = nav.innerHTML;
   var originalToggleMarkup = menuToggle.innerHTML;
 
+  function markCurrentPage() {
+    var currentPath = window.location.pathname.replace(/index\.html$/, '').replace(/\/$/, '') || '/';
+    nav.querySelectorAll('a').forEach(function (link) {
+      var url = new URL(link.href, window.location.origin);
+      var linkPath = url.pathname.replace(/index\.html$/, '').replace(/\/$/, '') || '/';
+      if (!url.hash && linkPath === currentPath) link.setAttribute('aria-current', 'page');
+      else link.removeAttribute('aria-current');
+    });
+  }
+
   function renderDesktopMenu() {
     if (nav.dataset.desktopMenu === 'true') return;
     nav.dataset.desktopMenu = 'true';
@@ -80,6 +94,7 @@ function initUnifiedMobileMenu() {
     nav.innerHTML =
       '<div class="desktop-nav-links">' +
         '<a href="/leistungen/">Leistungen</a>' +
+        '<a href="/beispielgutachten/">Beispielgutachten</a>' +
         '<a href="/so-funktioniert-es/">So funktioniert’s</a>' +
         '<a href="/#ueber-mich">Über mich</a>' +
         '<a href="/erfahrungen/">Kundenstimmen</a>' +
@@ -89,7 +104,7 @@ function initUnifiedMobileMenu() {
         '<div class="desktop-nav-panel-heading"><span>Alle Themen</span><button type="button" class="desktop-nav-close" aria-label="Menü schließen">×</button></div>' +
         '<div class="desktop-nav-columns">' +
           '<details class="desktop-nav-group" open><summary>Gutachten<span class="desktop-group-symbol" aria-hidden="true"></span></summary><div>' +
-            '<a href="/leistungen/">Leistungen</a><a href="/so-funktioniert-es/">So funktioniert’s</a><a href="/ihre-vorteile/">Ihre Vorteile</a>' +
+            '<a href="/leistungen/">Leistungen</a><a href="/beispielgutachten/">Beispielgutachten</a><a href="/so-funktioniert-es/">So funktioniert’s</a><a href="/ihre-vorteile/">Ihre Vorteile</a>' +
           '</div></details>' +
           '<details class="desktop-nav-group" open><summary>Über mich<span class="desktop-group-symbol" aria-hidden="true"></span></summary><div>' +
             '<a href="/#ueber-mich">Über mich</a><a href="/erfahrungen/">Kundenstimmen</a><a href="/#einzugsgebiet">Einzugsgebiet</a>' +
@@ -99,6 +114,8 @@ function initUnifiedMobileMenu() {
           '</div></details>' +
         '</div>' +
       '</div>';
+    nav.inert = false;
+    markCurrentPage();
     nav.querySelector('.desktop-nav-close').addEventListener('click', function () {
       closeMenu();
       menuToggle.focus();
@@ -110,7 +127,7 @@ function initUnifiedMobileMenu() {
 
   document.addEventListener('keydown', function (event) {
     var panel = document.getElementById('desktop-nav-panel');
-    if (event.key === 'Escape' && panel && !panel.hidden) {
+    if (event.key === 'Escape' && ((panel && !panel.hidden) || nav.classList.contains('open'))) {
       closeMenu();
       menuToggle.focus();
     }
@@ -123,6 +140,8 @@ function initUnifiedMobileMenu() {
     nav.querySelectorAll('.nav-group').forEach(function (otherGroup) {
       var isActive = otherGroup === group && shouldOpen;
       otherGroup.classList.toggle('is-open', isActive);
+      var submenu = otherGroup.querySelector('.nav-submenu');
+      if (submenu) submenu.inert = !isActive;
       var otherButton = otherGroup.querySelector('.nav-group-toggle');
       if (otherButton) otherButton.setAttribute('aria-expanded', isActive ? 'true' : 'false');
     });
@@ -164,6 +183,8 @@ function initUnifiedMobileMenu() {
     if (nav.dataset.unifiedMenu === 'true') return;
 
     nav.innerHTML =
+      '<a class="nav-main-link" data-menu-link href="/leistungen/">Leistungen</a>' +
+      '<a class="nav-main-link" data-menu-link href="/beispielgutachten/">Beispielgutachten</a>' +
       '<a class="nav-main-link" data-menu-link href="/so-funktioniert-es/">So funktioniert’s</a>' +
       '<div class="nav-group">' +
         '<button class="nav-group-toggle" type="button" aria-expanded="false" aria-controls="nav-about-submenu">' +
@@ -171,7 +192,6 @@ function initUnifiedMobileMenu() {
         '</button>' +
         '<div class="nav-submenu" id="nav-about-submenu"><div class="nav-submenu-inner">' +
           '<a data-menu-link href="/#ueber-mich">Über mich</a>' +
-          '<a data-menu-link href="/leistungen/">Meine Leistungen</a>' +
           '<a data-menu-link href="/ihre-vorteile/">Ihre Vorteile</a>' +
           '<a data-menu-link href="/#einzugsgebiet">Einzugsgebiet / Vor-Ort-Service</a>' +
         '</div></div>' +
@@ -192,6 +212,8 @@ function initUnifiedMobileMenu() {
     nav.dataset.unifiedMenu = 'true';
     menuToggle.setAttribute('aria-controls', 'nav');
     syncMenuToggleState(nav.classList.contains('open'));
+    closeUnifiedMenuGroups();
+    markCurrentPage();
     bindUnifiedMenu();
   }
 
