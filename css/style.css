@@ -6314,11 +6314,7 @@ img {
 }
 
 /* Auf schmalen Desktopfenstern bleiben alle Themen über das Menü erreichbar. */
-@media (min-width: 769px) and (max-width: 1050px) {
-  .header[data-desktop-nav] .desktop-nav-links a:is([href="/#ueber-mich"], [href="/erfahrungen/"]) {
-    display: none;
-  }
-}
+
 
 /* Startseite: Kontaktbutton nach dem ersten Bereich, auch auf Mobilgeräten. */
 .contact-fab[data-home-contact-fab] {
@@ -6414,9 +6410,7 @@ img {
   .header[data-desktop-nav] .header-inner { grid-template-columns: auto minmax(0,1fr) auto; width: 100%; }
   .header[data-desktop-nav] .logo { margin-right: 0; }
 }
-@media (min-width: 769px) and (max-width: 1100px) {
-  .header[data-desktop-nav] .desktop-nav-links a:is([href="/#ueber-mich"], [href="/erfahrungen/"]) { display: none; }
-}
+
 @media (max-width: 900px) {
   .example-hero-grid { gap: 28px; }
   .example-results { grid-template-columns: repeat(2,minmax(0,1fr)); }
@@ -6443,9 +6437,7 @@ img {
 }
 /* Abstand zum fixierten Header; alle Themen bleiben im Menü erreichbar. */
 .example-page { padding-top: 70px; }
-@media (min-width: 769px) and (max-width: 880px) {
-  .header[data-desktop-nav] .desktop-nav-links a[href="/so-funktioniert-es/"] { display: none; }
-}
+
 
 /* Lesbare Texte im blauen Ablauf-Verweis auf der Startseite. */
 .homepage-detail-teaser.section-dark .process-title { color: #fff; }
@@ -6460,4 +6452,17 @@ img {
   line-height: var(--line-height-h2);
   letter-spacing: .01em;
   margin-bottom: 12px;
+}
+
+/* Alle sechs Hauptlinks bleiben in der Desktopleiste sichtbar. */
+@media (min-width: 769px) {
+  .header[data-desktop-nav] .header-inner { max-width: 1240px; }
+  .header[data-desktop-nav] .desktop-nav-links { gap: clamp(10px, 1.25vw, 18px); }
+}
+@media (min-width: 769px) and (max-width: 1050px) {
+  .header[data-desktop-nav] .header-inner { gap: 12px; padding-inline: 16px; }
+  .header[data-desktop-nav] .logo-text,
+  .header[data-desktop-nav] .menu-toggle .desktop-menu-label { display: none; }
+  .header[data-desktop-nav] .desktop-nav-links a { font-size: .82rem; }
+  .header[data-desktop-nav] .menu-toggle { padding: 8px; }
 }
