@@ -6450,3 +6450,14 @@ img {
 /* Lesbare Texte im blauen Ablauf-Verweis auf der Startseite. */
 .homepage-detail-teaser.section-dark .process-title { color: #fff; }
 .homepage-detail-teaser.section-dark .process-intro { color: rgba(255, 255, 255, .85); }
+
+/* Einheitliche Überschriften aller vier Startseiten-Verweise. */
+.homepage-detail-teaser .section-title,
+.homepage-detail-teaser .process-title {
+  font-family: var(--font-main);
+  font-size: var(--font-size-h2);
+  font-weight: 700;
+  line-height: var(--line-height-h2);
+  letter-spacing: .01em;
+  margin-bottom: 12px;
+}
