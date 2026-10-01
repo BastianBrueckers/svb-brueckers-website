@@ -6446,3 +6446,7 @@ img {
 @media (min-width: 769px) and (max-width: 880px) {
   .header[data-desktop-nav] .desktop-nav-links a[href="/so-funktioniert-es/"] { display: none; }
 }
+
+/* Lesbare Texte im blauen Ablauf-Verweis auf der Startseite. */
+.homepage-detail-teaser.section-dark .process-title { color: #fff; }
+.homepage-detail-teaser.section-dark .process-intro { color: rgba(255, 255, 255, .85); }
