@@ -6541,3 +6541,9 @@ img {
     color: #fff;
   }
 }
+
+.homepage-teaser-button .homepage-teaser-label--desktop,
+.homepage-teaser-button .homepage-teaser-label--mobile {
+  margin-left: 0;
+  color: inherit;
+}
