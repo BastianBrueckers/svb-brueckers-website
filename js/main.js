@@ -244,9 +244,16 @@ function initUnifiedMobileMenu() {
     if (nav.dataset.unifiedMenu === 'true') return;
 
     nav.innerHTML =
-      '<a class="nav-main-link" data-menu-link href="/leistungen/">Leistungen</a>' +
-      '<a class="nav-main-link" data-menu-link href="/beispielgutachten/">Beispielgutachten</a>' +
-      '<a class="nav-main-link" data-menu-link href="/so-funktioniert-es/">So funktioniert’s</a>' +
+      '<div class="nav-group">' +
+        '<button class="nav-group-toggle" type="button" aria-expanded="false" aria-controls="nav-report-submenu">' +
+          '<span>Ihr Gutachten</span><span class="nav-group-symbol" aria-hidden="true">+</span>' +
+        '</button>' +
+        '<div class="nav-submenu" id="nav-report-submenu"><div class="nav-submenu-inner">' +
+          '<a data-menu-link href="/so-funktioniert-es/">So funktioniert’s</a>' +
+          '<a data-menu-link href="/leistungen/">Leistungen</a>' +
+          '<a data-menu-link href="/beispielgutachten/">Beispielgutachten</a>' +
+        '</div></div>' +
+      '</div>' +
       '<div class="nav-group">' +
         '<button class="nav-group-toggle" type="button" aria-expanded="false" aria-controls="nav-about-submenu">' +
           '<span>Über mich</span><span class="nav-group-symbol" aria-hidden="true">+</span>' +

@@ -6525,3 +6525,19 @@ img {
   outline: 2px solid var(--accent);
   outline-offset: 3px;
 }
+
+/* Compact report navigation and teaser buttons: mobile only. */
+.homepage-teaser-label--mobile { display: none; }
+@media (max-width: 768px) {
+  .homepage-teaser-label--desktop { display: none; }
+  .homepage-teaser-label--mobile { display: inline; }
+
+  #leistungen .homepage-teaser-button,
+  #beispielgutachten .homepage-teaser-button,
+  #so-funktionierts .homepage-teaser-button {
+    width: min(100%, 240px);
+    min-width: 0;
+    white-space: normal;
+    color: #fff;
+  }
+}
