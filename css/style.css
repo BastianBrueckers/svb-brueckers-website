@@ -6480,3 +6480,20 @@ img {
   .example-depreciation-value { min-height: 200px; padding: 28px 20px; }
   .example-depreciation-context { padding: 20px; }
 }
+
+/* Kontaktkasten nach Vorlage: klare weiße Schrift auf Blau. */
+.example-page .example-contact .services-page-contact-inner {
+  padding: 36px;
+  border-radius: 18px;
+  background: var(--primary);
+}
+.example-page .example-contact h2 { color: #fff; margin: 0; }
+.example-page .example-contact .services-page-contact-inner > p {
+  color: #cbd5e1;
+  margin: 12px auto 30px;
+}
+.example-page .example-contact .contact-action { color: #fff; }
+.example-page .example-contact .example-contact-back { margin: 20px auto 0; text-align: center; }
+@media (max-width: 680px) {
+  .example-page .example-contact .services-page-contact-inner { padding: 28px 18px; }
+}
