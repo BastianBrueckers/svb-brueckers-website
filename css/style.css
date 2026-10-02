@@ -6466,3 +6466,17 @@ img {
   .header[data-desktop-nav] .desktop-nav-links a { font-size: .82rem; }
   .header[data-desktop-nav] .menu-toggle { padding: 8px; }
 }
+
+/* Eigener Schwerpunkt zur merkantilen Wertminderung. */
+.example-depreciation { border-top: 1px solid var(--border); }
+.example-depreciation-grid { display: grid; grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr); align-items: center; gap: 48px; }
+.example-depreciation-value { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; padding: 36px 24px; min-height: 230px; background: var(--primary); color: #fff; border-radius: var(--radius); text-align: center; border-top: 4px solid var(--accent); }
+.example-depreciation-amount { font-size: clamp(3rem, 5vw, 4.5rem); font-weight: 750; line-height: 1.1; letter-spacing: -.03em; }
+.example-depreciation-value > span:last-child { font-size: .9rem; color: #dce6f1; }
+.example-depreciation-context { margin-top: 32px; padding: 24px 28px; border-left: 3px solid var(--accent); background: var(--bg-alt); }
+.example-depreciation-context p { max-width: 850px; }
+@media (max-width: 680px) {
+  .example-depreciation-grid { grid-template-columns: 1fr; gap: 24px; }
+  .example-depreciation-value { min-height: 200px; padding: 28px 20px; }
+  .example-depreciation-context { padding: 20px; }
+}
