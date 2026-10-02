@@ -6497,3 +6497,16 @@ img {
 @media (max-width: 680px) {
   .example-page .example-contact .services-page-contact-inner { padding: 28px 18px; }
 }
+
+/* Aktueller Bereich: Seiten, Ratgeber-Unterseiten und Startseitenabschnitte. */
+#nav a[aria-current="location"],
+#nav .has-current-link > .nav-group-toggle,
+#nav .has-current-link > summary,
+.header .menu-toggle.has-current-link .desktop-menu-label {
+  text-decoration: underline;
+  text-underline-offset: 6px;
+  text-decoration-thickness: 2px;
+  font-weight: 750;
+  opacity: 1;
+}
+.header .menu-toggle.has-current-link { border-color: var(--accent); }

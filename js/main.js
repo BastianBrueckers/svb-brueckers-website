@@ -76,13 +76,62 @@ function initUnifiedMobileMenu() {
 
   function markCurrentPage() {
     var currentPath = window.location.pathname.replace(/index\.html$/, '').replace(/\/$/, '') || '/';
+    var activeTarget = currentPath;
+    var currentKind = 'page';
+    if (currentPath === '/') {
+      activeTarget = '';
+      currentKind = 'location';
+      var marker = 70 + Math.min(window.innerHeight * 0.2, 160);
+      var sections = [
+        ['#ueber-mich', '/#ueber-mich'],
+        ['.experience-home-teaser', '/erfahrungen'],
+        ['#leistungen', '/leistungen'],
+        ['#beispielgutachten', '/beispielgutachten'],
+        ['#so-funktionierts', '/so-funktioniert-es'],
+        ['#einzugsgebiet', '/#einzugsgebiet'],
+        ['#kontakt', '/#kontakt']
+      ];
+      sections.forEach(function (entry) {
+        var section = document.querySelector(entry[0]);
+        if (!section) return;
+        if (entry[0] === '#so-funktionierts') section = section.closest('.homepage-detail-teaser');
+        var rect = section.getBoundingClientRect();
+        if (rect.top <= marker && rect.bottom > marker) activeTarget = entry[1];
+      });
+      var contact = document.getElementById('kontakt');
+      if (contact && contact.getBoundingClientRect().top <= marker) activeTarget = '/#kontakt';
+    } else if (currentPath.startsWith('/ratgeber/') && currentPath !== '/ratgeber/130-prozent-rechner') {
+      activeTarget = '/ratgeber';
+      currentKind = 'location';
+    }
     nav.querySelectorAll('a').forEach(function (link) {
       var url = new URL(link.href, window.location.origin);
       var linkPath = url.pathname.replace(/index\.html$/, '').replace(/\/$/, '') || '/';
-      if (!url.hash && linkPath === currentPath) link.setAttribute('aria-current', 'page');
+      var target = linkPath + url.hash;
+      if (target === activeTarget) link.setAttribute('aria-current', currentKind);
       else link.removeAttribute('aria-current');
     });
+    nav.querySelectorAll('.nav-group, .desktop-nav-group').forEach(function (group) {
+      group.classList.toggle('has-current-link', Boolean(group.querySelector('[aria-current]')));
+    });
+    var activeLink = nav.querySelector('a[aria-current]');
+    var visibleActiveLink = nav.querySelector('.desktop-nav-links a[aria-current]');
+    menuToggle.classList.toggle('has-current-link', Boolean(activeLink && !visibleActiveLink));
   }
+
+  var navigationFramePending = false;
+  function scheduleNavigationUpdate() {
+    if (navigationFramePending) return;
+    navigationFramePending = true;
+    window.requestAnimationFrame(function () {
+      navigationFramePending = false;
+      markCurrentPage();
+    });
+  }
+  window.addEventListener('scroll', scheduleNavigationUpdate, { passive: true });
+  window.addEventListener('resize', scheduleNavigationUpdate);
+  window.addEventListener('hashchange', scheduleNavigationUpdate);
+  window.addEventListener('pageshow', scheduleNavigationUpdate);
 
   function renderDesktopMenu() {
     if (nav.dataset.desktopMenu === 'true') return;
