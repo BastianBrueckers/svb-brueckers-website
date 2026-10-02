@@ -18,7 +18,7 @@ function closeUnifiedMenuGroups() {
   });
 }
 
-function toggleMenu() {
+function toggleMenu(event) {
   var nav = document.getElementById('nav');
   if (!nav) return;
   if (nav.dataset.desktopMenu === 'true') {
@@ -26,6 +26,9 @@ function toggleMenu() {
     var shouldOpen = panel.hidden;
     panel.hidden = !shouldOpen;
     syncMenuToggleState(shouldOpen);
+    if (shouldOpen && event && event.detail === 0) {
+      panel.querySelector('.desktop-nav-close').focus();
+    }
     return;
   }
   var isOpen = nav.classList.toggle('open');
@@ -185,6 +188,15 @@ function initUnifiedMobileMenu() {
     if (nav.dataset.desktopMenu === 'true' && !nav.contains(event.target) && !menuToggle.contains(event.target)) closeMenu();
   });
 
+  function closeMenuAfterFocusLeaves() {
+    window.requestAnimationFrame(function () {
+      var focused = document.activeElement;
+      if (!nav.contains(focused) && !menuToggle.contains(focused)) closeMenu();
+    });
+  }
+  nav.addEventListener('focusout', closeMenuAfterFocusLeaves);
+  menuToggle.addEventListener('focusout', closeMenuAfterFocusLeaves);
+
   function setGroupState(group, shouldOpen) {
     nav.querySelectorAll('.nav-group').forEach(function (otherGroup) {
       var isActive = otherGroup === group && shouldOpen;
@@ -211,7 +223,7 @@ function initUnifiedMobileMenu() {
     });
   }
 
-  function renderMenu() {
+  function renderMenuLayout() {
     if (!mobileQuery.matches) {
       if (nav.dataset.unifiedMenu === 'true') {
         nav.innerHTML = originalMarkup;
@@ -264,6 +276,24 @@ function initUnifiedMobileMenu() {
     closeUnifiedMenuGroups();
     markCurrentPage();
     bindUnifiedMenu();
+  }
+
+  function renderMenu() {
+    var focused = document.activeElement;
+    var restoreFocus = nav.contains(focused);
+    var focusedHref = restoreFocus && focused.closest('a')
+      ? focused.closest('a').getAttribute('href') : null;
+    renderMenuLayout();
+    if (!restoreFocus || nav.contains(focused)) return;
+
+    var replacement = null;
+    if (focusedHref) {
+      replacement = Array.from(nav.querySelectorAll('a')).find(function (link) {
+        return link.getAttribute('href') === focusedHref &&
+          !link.closest('[inert]') && link.getClientRects().length > 0;
+      });
+    }
+    (replacement || menuToggle).focus();
   }
 
   renderMenu();
