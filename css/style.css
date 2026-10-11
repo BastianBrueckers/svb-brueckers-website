@@ -1094,46 +1094,6 @@ img {
   z-index: 3;
 }
 
-/* Background only: span the existing gaps without changing USP geometry. */
-.hero + .usp-section {
-  --usp-fade-top: 45px;
-  --usp-fade-bottom: 45px;
-  --usp-background-top: 46px;
-  --usp-background-bottom: -28px;
-}
-
-.hero + .usp-section::before {
-  content: "";
-  position: absolute;
-  inset: var(--usp-background-top) 0 var(--usp-background-bottom);
-  z-index: -1;
-  pointer-events: none;
-  background:
-    linear-gradient(to bottom,
-      var(--primary) 0,
-      #f3f7fc calc(var(--usp-fade-top) * .7),
-      #fff var(--usp-fade-top),
-      #fff calc(100% - var(--usp-fade-bottom)),
-      #f3f7fc calc(100% - var(--usp-fade-bottom) * .7),
-      transparent 100%),
-    linear-gradient(135deg, #132d51 0%, #1a365d 54%, #102745 100%);
-}
-
-@media (max-width: 768px) {
-  .hero + .usp-section {
-    --usp-background-top: -30px;
-    --usp-background-bottom: -20px;
-  }
-}
-
-@media (min-width: 992px) {
-  .hero + .usp-section {
-    --usp-fade-top: 70px;
-    --usp-fade-bottom: 90px;
-    --usp-background-top: -26px;
-  }
-}
-
 .usp-container {
   width: min(100%, 460px);
   margin: 0 auto;
