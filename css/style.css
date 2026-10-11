@@ -6564,3 +6564,13 @@ img {
   margin-left: 0;
   color: inherit;
 }
+
+/* Startseite: einheitliche Teaser-Buttons nur in der Desktopansicht. */
+@media (min-width: 769px) {
+  .homepage-detail-teaser .homepage-services-cta .homepage-teaser-button {
+    width: 280px;
+    min-width: 280px;
+    max-width: 100%;
+    color: #fff;
+  }
+}
