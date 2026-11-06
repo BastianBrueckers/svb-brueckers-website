@@ -35,3 +35,6 @@
 @media(max-width:800px){.examples-intro-grid{grid-template-columns:1fr;gap:32px}.examples-intro-note{max-width:600px}.examples-intro{padding-bottom:44px}.examples-case-body{padding:24px}.examples-topics{gap:20px}}
 @media(max-width:600px){.examples-case-grid,.examples-topics{grid-template-columns:1fr}.examples-case-grid{gap:28px}.examples-overview .section{padding-block:48px}.examples-intro .example-breadcrumb{margin-bottom:26px}.examples-intro-note{padding:24px}.examples-intro h1{font-size:2.5rem}.examples-case-body .btn{font-size:.95rem}.examples-topics{gap:28px}}
 @media(prefers-reduced-motion:reduce){.examples-case-image img{transition:none}.examples-case:hover .examples-case-image img{transform:none}}
+
+/* Three cases share one row on wide screens; existing tablet/mobile layouts remain. */
+@media(min-width:1100px){.examples-case-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}.examples-case-body{padding:24px}.examples-case-body h3{font-size:1.5rem}.examples-case-body .btn{font-size:.9rem;padding-inline:16px}}
