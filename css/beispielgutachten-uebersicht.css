@@ -7,7 +7,7 @@
 .examples-intro-grid{display:grid;grid-template-columns:1.45fr 1fr;gap:70px;align-items:center;position:relative;z-index:1}
 .examples-intro .btn{margin-top:26px;display:inline-flex;gap:22px;align-items:center}
 .examples-intro-note{border:1px solid #70819a;border-radius:var(--radius);padding:32px;background:rgba(255,255,255,.055);position:relative}
-.examples-note-mark{display:flex;align-items:center;justify-content:center;width:46px;height:46px;border:1px solid #f0a776;border-radius:50%;font-weight:750;color:#f6b489;margin-bottom:24px}
+.examples-note-mark{display:block;width:64px;height:64px;object-fit:contain;margin-bottom:24px}
 .examples-overview .examples-note-title{color:#fff;font-size:1.65rem;font-weight:700;line-height:1.3;margin-bottom:16px}
 .examples-overview .examples-intro-note>p{color:#e0e8f2}
 .examples-note-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:24px}
