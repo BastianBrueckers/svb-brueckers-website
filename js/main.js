@@ -973,7 +973,7 @@ function initProcessSlider() {
   var dotsContainer = document.querySelector('[data-process-dots]');
   var mobileMediaQuery = window.matchMedia('(max-width: 768px)');
   var cards = [];
-  var initialIndex = 0;
+  var stableProcessPage = document.body.classList.contains('process-page');
 
   function isMobileProcessSlider() {
     return mobileMediaQuery.matches;
@@ -981,7 +981,7 @@ function initProcessSlider() {
 
   function getCards() {
     if (!track) return [];
-    var selector = isMobileProcessSlider()
+    var selector = isMobileProcessSlider() && !stableProcessPage
       ? '[data-process-card], .process-card-dummy'
       : '[data-process-card]';
     return Array.prototype.slice.call(track.querySelectorAll(selector));
@@ -1100,8 +1100,8 @@ function initProcessSlider() {
 
   renderDots();
   requestAnimationFrame(function () {
-    initialIndex = isMobileProcessSlider() ? 1 : 0;
-    scrollToIndex(initialIndex, 'auto');
+    var initialIndex = isMobileProcessSlider() && !stableProcessPage ? 1 : 0;
+    scrollToIndex(initialIndex, 'instant');
   });
 }
 

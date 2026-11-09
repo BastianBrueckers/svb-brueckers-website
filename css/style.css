@@ -6564,3 +6564,75 @@ img {
     color: #fff;
   }
 }
+
+/* Keep the process cards in one intrinsic-height row. Never turn the swipe
+   track into a second vertically scrollable area. */
+.process-page .process-slider {
+  position: relative;
+  min-width: 0;
+  overflow-y: hidden;
+  overscroll-behavior-x: contain;
+}
+
+.process-page .process-card,
+.process-page .process-card:hover,
+.process-page .process-card.is-active,
+.process-page .process-card.is-active:hover {
+  transform: none;
+}
+
+.process-page .process-card {
+  scroll-snap-align: center;
+  min-width: 0;
+  height: auto;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 768px) {
+  .process-page .process-slider {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 100%;
+    grid-template-rows: auto;
+    align-items: stretch;
+    padding: 12px 7% 20px;
+  }
+
+  .process-page .process-card {
+    min-height: 332px;
+    height: auto;
+    padding: 22px 18px;
+    justify-content: flex-start;
+    gap: 10px;
+  }
+
+  .process-page .process-card-dummy {
+    display: none;
+  }
+
+  .process-page .process-card-title {
+    min-height: 3.2rem;
+    flex-shrink: 0;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .process-page .process-card-text {
+    min-height: 0;
+    margin: 6px auto 0;
+    flex-shrink: 0;
+  }
+
+  .process-page .process-card-ctas,
+  .process-page .process-card-mobile-cta-lift .process-card-ctas {
+    margin-top: auto;
+    padding-top: 12px;
+    transform: none;
+    flex-wrap: wrap;
+  }
+
+  .process-page .process-dots {
+    margin-top: 0;
+    padding: 8px 0;
+  }
+}
