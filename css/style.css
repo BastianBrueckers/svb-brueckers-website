@@ -6607,7 +6607,13 @@ img {
   }
 
   .process-page .process-card-dummy {
-    display: none;
+    display: flex;
+    padding: 0;
+  }
+
+  .process-page .process-card-dummy .process-card-image-wrapper {
+    height: 100%;
+    min-height: 332px;
   }
 
   .process-page .process-card-title {
