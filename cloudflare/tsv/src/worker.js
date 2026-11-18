@@ -22,7 +22,7 @@ export function range(url) {
   return {from,to};
 }
 export async function count(db, now=new Date()) {
-  const stamp=now.toISOString(), day=stamp.slice(0,10);
+  const stamp=now.toISOString(), day=new Intl.DateTimeFormat('en-CA',{timeZone:'Europe/Berlin',year:'numeric',month:'2-digit',day:'2-digit'}).format(now);
   // D1 batch is transactional: all three counters commit or none do.
   return db.batch([
     db.prepare('INSERT INTO qr_events(id,scanned_at,day) VALUES (?,?,?)').bind(crypto.randomUUID(),stamp,day),

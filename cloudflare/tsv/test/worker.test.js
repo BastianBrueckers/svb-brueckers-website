@@ -13,10 +13,10 @@ test('dates validate real calendar days and order',()=>{
  assert.throws(()=>range(new URL('https://x?from=2026-11-20&to=2026-11-01')));
  assert.equal(range(new URL('https://x?from=2026-01-01&to=2026-01-02')).from,'2026-01-01');
 });
-test('one awaited transaction writes all three values with UTC day',async()=>{
+test('one awaited transaction writes all three values with Berlin day',async()=>{
  let statements;const db={prepare(sql){return {sql,bind(...args){return {sql,args}}}},async batch(s){statements=s}};
  await count(db,new Date('2026-11-18T23:30:00Z'));
- assert.equal(statements.length,3);assert.equal(statements[0].args[2],'2026-11-18');assert.equal(statements[1].args[0],'2026-11-18');
+ assert.equal(statements.length,3);assert.equal(statements[0].args[2],'2026-11-19');assert.equal(statements[1].args[0],'2026-11-19');
 });
 test('HEAD never counts; GET remains redirect even on database outage',async()=>{
  let calls=0;const env={DB:{prepare(){calls++;throw Error('offline')}}};

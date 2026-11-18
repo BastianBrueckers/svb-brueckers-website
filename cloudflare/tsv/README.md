@@ -12,7 +12,7 @@ Ziel: https://svb-brueckers.de/statistik/; der bestehende Worker qrcode-tsv-redi
 
 ## Freigabegrenze
 
-Erst nach ausdrücklicher Nutzerbestätigung Access, Routen, Migration, Cron und Worker-Veröffentlichung ausführen. Bis dahin keine Produktivänderungen. Die zugelassenen E-Mail-Adressen werden noch benötigt.
+Erst nach ausdrücklicher Nutzerbestätigung Access, Routen, Migration, Cron und Worker-Veröffentlichung ausführen. Nutzerfreigabe zur Veröffentlichung am 18.11.2026 liegt vor. Noch offen: Access-Free-Aktivierung verlangt eine Zahlungsmethode und Zustimmung zu möglichen Mehrkosten; Nutzer muss diesen Abrechnungsschritt abschließen. Zugelassene E-Mail-Adresse noch bestätigen.
 
 ## Lokale Prüfung / spätere Veröffentlichung
 
@@ -21,13 +21,13 @@ Nach Freigabe und Sicherung: npx wrangler d1 migrations apply qrcode-tsv-counter
 
 ## Zählweise und Datenqualität
 
-GET auf /qrcode_tsv, /qrcode_tsv/ und /qrcode_tsv/index.html zählt einmal je HTTP-Anfrage (auch Bots, kein Unique-Visitor-Zähler). HEAD zählt nicht. Die Weiterleitung bleibt 302 zum vorhandenen UTM-Ziel, ohne Cache. Tagesgrenzen UTC, um unbekannte historische Tageszeitzonen nicht nachträglich umzudeuten. Historische Zeitzone noch am Live-Code prüfen. UI-Uhrzeiten Europe/Berlin, Wochen Montag–Sonntag.
+GET auf /qrcode_tsv, /qrcode_tsv/ und /qrcode_tsv/index.html zählt einmal je HTTP-Anfrage (auch Bots, kein Unique-Visitor-Zähler). HEAD zählt nicht. Die Weiterleitung bleibt 302 zum vorhandenen UTM-Ziel, ohne Cache. Tagesgrenzen Europe/Berlin, wie im aktiven Worker am 18.11.2026 geprüft. UI-Uhrzeiten Europe/Berlin, Wochen Montag–Sonntag.
 
 Ereignis, Tageswert und Gesamtwert werden in EINER D1-Transaktion vor der Weiterleitung gespeichert. Bei Datenbankausfall bleibt die Weiterleitung erreichbar, Fehler wird als tsv_count_failed ohne Besucherdaten protokolliert. In diesem Fall ist der Aufruf nicht gespeichert; garantierte verlustfreie Zählung bei Ausfall erfordert zusätzlich eine dauerhafte Queue und Idempotenz und ist hier nicht behauptet. Cloudflare-Alarm auf diesen Fehler vor Aktivierung einrichten. Keine automatischen Schreib-Retries, die doppelt zählen könnten.
 
-Die frühere Chat-Auswertung behauptete qr_total=33, Tageswerte=32. Nachgerechnet ergeben die 14 tatsächlich geposteten Tageswerte jedoch 33 (August 5, September 14, Oktober 5, November 9). Die behauptete Differenz ist damit nicht belegt; Live-D1-Abgleich bleibt erforderlich. Keine automatische Reparatur oder erfundene Zuordnung. UI zeigt beide Summen und berechnet eine tatsächliche Differenz aus aktuellen Daten.
+Die frühere Chat-Auswertung behauptete qr_total=33, Tageswerte=32. Nachgerechnet ergeben die 14 tatsächlich geposteten Tageswerte jedoch 33 (August 5, September 14, Oktober 5, November 9). Live-D1-Abgleich am 18.11.2026 bestätigt 33 im Gesamtzähler und 33 als Tageswertsumme. Keine automatische Reparatur oder erfundene Zuordnung. UI zeigt beide Summen und berechnet eine tatsächliche Differenz aus aktuellen Daten.
 
-Neue Zeitpunkte werden erst ab Migration erfasst, nur UUID + UTC-Zeitpunkt + UTC-Tag. Keine IPs, Cookies oder User-Agents. Nach 90 Tagen löscht täglicher Cron nur Ereignisse, Aggregate bleiben. Cloudflare-Access- und Infrastrukturprotokolle sind separat im Konto zu prüfen. Ereignisliste zeigt jeweils 100 Datensätze mit Cursor; Filter gelten auch dort. Wochen/Monate sind am Filterrand Teilzeiträume.
+Neue Zeitpunkte werden erst ab Migration erfasst, nur UUID + UTC-Zeitpunkt + Berlin-Tag. Keine IPs, Cookies oder User-Agents. Nach 90 Tagen löscht täglicher Cron nur Ereignisse, Aggregate bleiben. Cloudflare-Access- und Infrastrukturprotokolle sind separat im Konto zu prüfen. Ereignisliste zeigt jeweils 100 Datensätze mit Cursor; Filter gelten auch dort. Wochen/Monate sind am Filterrand Teilzeiträume.
 
 ## Abnahme nach Freigabe
 
