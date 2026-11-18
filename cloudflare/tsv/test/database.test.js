@@ -37,7 +37,7 @@ test('VivaVoce is isolated from TSV and starts with its own zero counters',async
  const db=database();
  db.sql.exec(readFileSync(new URL('../migrations/0002_vivavoce.sql',import.meta.url),'utf8'));
  let vv=await statistics(db,{from:'2026-01-01',to:'2026-12-31'},undefined,'vivavoce');
- assert.equal(vv.total.count,0);assert.equal(vv.dailySum,0);assert.equal(vv.events.length,0);assert.equal(vv.label,'VivaVoce');
+ assert.equal(vv.total.count,0);assert.equal(vv.dailySum,0);assert.equal(vv.events.length,0);assert.equal(vv.label,'VivaVoce QR-Code');
  await count(db,new Date('2026-11-18T19:00:00Z'),'vivavoce');
  vv=await statistics(db,{from:'2026-11-18',to:'2026-11-18'},undefined,'vivavoce');
  assert.equal(vv.total.count,1);assert.equal(vv.dailySum,1);assert.equal(vv.events.length,1);
@@ -45,5 +45,15 @@ test('VivaVoce is isolated from TSV and starts with its own zero counters',async
  assert.equal(tsv.total.count,33);assert.equal(tsv.dailySum,32);assert.equal(tsv.events.length,0);
  await assert.rejects(()=>statistics(db,{from:'2026-01-01',to:'2026-12-31'},undefined,'__proto__'));
  await assert.rejects(()=>count(db,new Date(),'vivavoce; DROP TABLE qr_total'));
+ db.sql.close();
+});
+test('website referrals are independent of both QR campaigns',async()=>{
+ const db=database();for(const migration of ['0002_vivavoce.sql','0003_vivavoce_website.sql'])db.sql.exec(readFileSync(new URL('../migrations/'+migration,import.meta.url),'utf8'));
+ await count(db,new Date('2026-11-18T19:00:00Z'),'vivavoce');
+ await count(db,new Date('2026-11-18T23:30:00Z'),'vivavoce_web');
+ const dates={from:'2026-01-01',to:'2026-12-31'};
+ const web=await statistics(db,dates,undefined,'vivavoce_web');assert.equal(web.total.count,1);assert.equal(web.dailySum,1);assert.equal(web.events.length,1);assert.equal(web.daily[0].day,'2026-11-19');
+ assert.equal((await statistics(db,dates,undefined,'vivavoce')).total.count,1);
+ assert.equal((await statistics(db,dates)).total.count,33);
  db.sql.close();
 });

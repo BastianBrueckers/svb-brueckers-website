@@ -56,3 +56,14 @@ Die Konfiguration wrangler.production.jsonc enthält nur Bindungskennungen und �
 - Bei Erstprüfung VivaVoce 0/0, TSV 36/36. Beim Öffnen des Editors rief dessen zuvor gespeicherte TSV-Vorschau zweimal die echte QR-Adresse auf (20:10:55 MEZ). Diese beiden TSV-Testaufrufe bleiben enthalten; insgesamt zuvor 34→36. Vorschau wurde anschließend auf die Homepage umgestellt.
 - VivaVoce-GET-Funktionstest am 18.11.2026 20:13:52 MEZ: 302 zum richtigen Ziel, Ereignis vorhanden. Endstand VivaVoce 2/2 mit zwei Ereignissen (20:13:36 und 20:13:52 MEZ); ein Aufruf davon ist der dokumentierte Funktionstest. TSV bleibt beim VivaVoce-Test bei 36/36. Ein weiterer HEAD-Test um 20:14:51 erhöhte VivaVoce nicht. Keine Zähler nachträglich korrigiert.
 - Zehn lokale Tests bestanden, einschließlich isolierter SQL-Zähler und unveränderter TSV-Funktion.
+
+## VivaVoce-Homepage-Link – 18.11.2026
+
+- Öffentlicher Link für die VivaVoce-Website: https://svb-brueckers.de/klick_vivavoce (auch mit abschließendem Slash). Leitet zur SVB-Homepage mit utm_source=vivavoce, utm_medium=referral und utm_campaign=vivavoce_web weiter. Der Link auf der externen VivaVoce-Website selbst wurde nicht verändert.
+- Eigene Quelle vivavoce_web / VivaVoce Homepage in /statistik/?campaign=vivavoce_web. Bisherige Quelle zur Klarheit als VivaVoce QR-Code bezeichnet.
+- Additive Migration 0003_vivavoce_website.sql erfolgreich angewandt: eigene click_vivavoce_total, click_vivavoce_daily und click_vivavoce_events. Wiederherstellungspunkt vorher: 00000029-00000000-00005127-cb8b08d2e140bc5a9fe5f312ac5738cd.
+- Aktive Worker-Codeversion e2b43688; Route svb-brueckers.de/klick_vivavoce* ergänzt. Access, bisherige QR-Routen und DB-Bindung unverändert. Der bestehende Cron bereinigt alle drei Ereignistabellen nach 90 Tagen.
+- Zwölf lokale Tests bestanden, einschließlich neuer Quellenisolation und Referral-Weiterleitungsziel. HEAD-Prüfungen beider Pfadformen erfolgreich, neuer Zähler danach weiterhin 0. Ein kontrollierter GET-Test um 20:26:31 MEZ ergibt 302, Gesamt/Tageswerte/Ereignisse jeweils 1. Test bleibt enthalten.
+- Angemeldete Ansicht mit neuer Quellenauswahl und Zeitstempel bei 390 und 1280 Pixeln geprüft; mobiler Seiteninhalt genau 390 Pixel breit ohne horizontalen Überlauf. API ohne Anmeldung weiterhin über Access geschützt.
+- Abschließend gemessene Zähler: TSV 36, VivaVoce QR 5, VivaVoce Homepage 1. Beim Öffnen des Cloudflare-Editors rief dessen automatisch ausgewählte Live-Vorschau erneut zweimal /qr_vivavoce auf (20:24:04 MEZ). Vorschau danach auf Homepage umgestellt. Keine Zähler manuell bereinigt.
+- Quellen weiterhin in PR #238 gespeichert; Zusammenführung in main bleibt mangels ausdrücklicher Merge-Freigabe ausstehend. Cloudflare-Veröffentlichung ist davon unabhängig abgeschlossen.

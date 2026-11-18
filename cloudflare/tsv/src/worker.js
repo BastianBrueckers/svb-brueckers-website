@@ -2,13 +2,17 @@ import { createRemoteJWKSet, jwtVerify } from 'jose';
 import { dashboard } from './dashboard.js';
 export const campaigns = Object.freeze({
   tsv: { prefix: 'qr', label: 'TSV Heumaden', path: '/qrcode_tsv', metadata: 'events_started_at' },
-  vivavoce: { prefix: 'qr_vivavoce', label: 'VivaVoce', path: '/qr_vivavoce', metadata: 'vivavoce_events_started_at' }
+  vivavoce: { prefix: 'qr_vivavoce', label: 'VivaVoce QR-Code', path: '/qr_vivavoce', metadata: 'vivavoce_events_started_at' },
+  vivavoce_web: { prefix: 'click_vivavoce', label: 'VivaVoce Homepage', path: '/klick_vivavoce', metadata: 'vivavoce_web_events_started_at', source: 'vivavoce', medium: 'referral' }
 });
 export function campaignConfig(name) {
   if (!Object.hasOwn(campaigns, name)) throw Error('Unbekannter QR-Code');
   return campaigns[name];
 }
-const target = campaign => 'https://svb-brueckers.de/?utm_source=qr_code&utm_medium=offline&utm_campaign='+campaign;
+const target = campaign => {
+  const {source='qr_code',medium='offline'}=campaignConfig(campaign);
+  return 'https://svb-brueckers.de/?'+new URLSearchParams({utm_source:source,utm_medium:medium,utm_campaign:campaign});
+};
 const berlinDay = now => new Intl.DateTimeFormat('en-CA',{timeZone:'Europe/Berlin',year:'numeric',month:'2-digit',day:'2-digit'}).format(now);
 const keys = new Map();
 const headers = {'Cache-Control':'private, no-store','X-Content-Type-Options':'nosniff','Referrer-Policy':'no-referrer','X-Frame-Options':'DENY','Content-Security-Policy':"default-src 'none'; script-src 'self'; style-src 'self'; connect-src 'self'; base-uri 'none'; frame-ancestors 'none'; form-action 'self'"};

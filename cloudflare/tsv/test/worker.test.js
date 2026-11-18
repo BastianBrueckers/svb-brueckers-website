@@ -34,3 +34,10 @@ test('VivaVoce paths redirect with separate attribution; HEAD and unknown paths 
  assert.equal((await worker.fetch(new Request('https://svb-brueckers.de/qr_vivavoce/unknown'),env)).status,404);assert.equal(calls,3);
  assert.equal((await worker.fetch(new Request('https://svb-brueckers.de/statistik/api?campaign=vivavoce'),{})).status,403);
 });
+test('website link uses referral attribution and its own event tables',async()=>{
+ let batches=0;const env={DB:{prepare(sql){return {sql,bind(...args){return {sql,args}}}},async batch(statements){batches++;assert.ok(statements.every(s=>s.sql.includes('click_vivavoce_')))}}};
+ const url='https://svb-brueckers.de/klick_vivavoce';
+ for(const path of ['', '/', '/index.html']){const r=await worker.fetch(new Request(url+path),env);assert.equal(r.status,302);assert.equal(r.headers.get('Location'),'https://svb-brueckers.de/?utm_source=vivavoce&utm_medium=referral&utm_campaign=vivavoce_web');}
+ assert.equal(batches,3);assert.equal((await worker.fetch(new Request(url,{method:'HEAD'}),env)).status,302);assert.equal(batches,3);
+ assert.equal((await worker.fetch(new Request('https://svb-brueckers.de/statistik/api?campaign=vivavoce_web'),{})).status,403);
+});
