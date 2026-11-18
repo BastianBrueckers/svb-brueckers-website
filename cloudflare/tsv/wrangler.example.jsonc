@@ -1,0 +1,14 @@
+{
+  "name": "qrcode-tsv-redirect",
+  "main": "src/worker.js",
+  "compatibility_date": "2026-11-18",
+  "workers_dev": false,
+  "preview_urls": false,
+  "routes": [
+    {"pattern":"svb-brueckers.de/qrcode_tsv*","zone_name":"svb-brueckers.de"},
+    {"pattern":"svb-brueckers.de/statistik*","zone_name":"svb-brueckers.de"}
+  ],
+  "d1_databases": [{"binding":"DB","database_name":"qrcode-tsv-counter","database_id":"REPLACE_WITH_EXISTING_DATABASE_ID","migrations_dir":"migrations"}],
+  "vars": {"ACCESS_ISSUER":"https://REPLACE.cloudflareaccess.com","ACCESS_AUD":"REPLACE","ALLOWED_EMAILS":"REPLACE"},
+  "triggers": {"crons":["17 3 * * *"]}
+}
