@@ -23,7 +23,7 @@ Nach Freigabe und Sicherung: npx wrangler d1 migrations apply qrcode-tsv-counter
 
 GET auf /qrcode_tsv, /qrcode_tsv/ und /qrcode_tsv/index.html zählt einmal je HTTP-Anfrage (auch Bots, kein Unique-Visitor-Zähler). HEAD zählt nicht. Die Weiterleitung bleibt 302 zum vorhandenen UTM-Ziel, ohne Cache. Tagesgrenzen Europe/Berlin, wie im aktiven Worker am 18.11.2026 geprüft. UI-Uhrzeiten Europe/Berlin, Wochen Montag–Sonntag.
 
-Ereignis, Tageswert und Gesamtwert werden in EINER D1-Transaktion vor der Weiterleitung gespeichert. Bei Datenbankausfall bleibt die Weiterleitung erreichbar, Fehler wird als tsv_count_failed ohne Besucherdaten protokolliert. In diesem Fall ist der Aufruf nicht gespeichert; garantierte verlustfreie Zählung bei Ausfall erfordert zusätzlich eine dauerhafte Queue und Idempotenz und ist hier nicht behauptet. Cloudflare-Alarm auf diesen Fehler vor Aktivierung einrichten. Keine automatischen Schreib-Retries, die doppelt zählen könnten.
+Ereignis, Tageswert und Gesamtwert werden in EINER D1-Transaktion vor der Weiterleitung gespeichert. Bei Datenbankausfall bleibt die Weiterleitung erreichbar, Fehler wird als qr_count_failed mit Kampagnenname, ohne Besucherdaten protokolliert. In diesem Fall ist der Aufruf nicht gespeichert; garantierte verlustfreie Zählung bei Ausfall erfordert zusätzlich eine dauerhafte Queue und Idempotenz und ist hier nicht behauptet. Cloudflare-Alarm auf diesen Fehler vor Aktivierung einrichten. Keine automatischen Schreib-Retries, die doppelt zählen könnten.
 
 Die frühere Chat-Auswertung behauptete qr_total=33, Tageswerte=32. Nachgerechnet ergeben die 14 tatsächlich geposteten Tageswerte jedoch 33 (August 5, September 14, Oktober 5, November 9). Live-D1-Abgleich am 18.11.2026 bestätigt 33 im Gesamtzähler und 33 als Tageswertsumme. Keine automatische Reparatur oder erfundene Zuordnung. UI zeigt beide Summen und berechnet eine tatsächliche Differenz aus aktuellen Daten.
 
@@ -42,6 +42,17 @@ Ohne Anmeldung /statistik, /statistik/, Assets und API gesperrt; gefälschte/abg
 - Täglicher Cron 17 3 * * * aktiv. Bereinigt ausschließlich Ereignisse älter als 90 Tage.
 - Genau ein kontrollierter GET-Test am 18.11.2026 um 18:59:34 MEZ: 302 zum unveränderten UTM-Ziel, Gesamt 33→34, Tageswerte 33→34, Ereignisse 0→1. Testaufruf bleibt enthalten. HEAD-Tests erhöhen nicht. Homepage HTTP 200. Statistik-API ohne Anmeldung leitet zu Access weiter.
 - Acht lokale Tests bestanden, inklusive echter SQLite-Transaktion mit Rollback und Cursor-Paginierung bei gleichen Zeitstempeln. Worker-Bundle erfolgreich gebaut.
-- Abschließender angemeldeter Mobil-/Desktoptest wartet auf erste E-Mail-Anmeldung des Nutzers.
+- Angemeldeter Zugriff im In-App-Browser bestätigt; Mobil-/Desktoptest nach VivaVoce-Erweiterung abgeschlossen.
 
 Die Konfiguration wrangler.production.jsonc enthält nur Bindungskennungen und öffentliche Anmeldeparameter, keine Zugangstoken oder Passwörter. Künftige CLI-Befehle explizit mit --config wrangler.production.jsonc ausführen und vor Änderungen den aktuellen Cloudflare-Stand abgleichen.
+
+## VivaVoce-Erweiterung – 18.11.2026
+
+- Neue öffentliche QR-Adresse: https://svb-brueckers.de/qr_vivavoce (auch mit abschließendem Slash). Ziel bleibt die Homepage, mit utm_campaign=vivavoce. Bestehende TSV-Adresse und UTM-Ziel unverändert.
+- Aktive Worker-Codeversion 25538d87; neue Route svb-brueckers.de/qr_vivavoce*. Access-Regeln und DB-Bindung unverändert.
+- Migration 0002_vivavoce.sql erfolgreich einzeln angewandt. Eigene qr_vivavoce_total / qr_vivavoce_daily / qr_vivavoce_events; keine Vermischung mit TSV. Kampagnenparameter wird gegen eine feste Positivliste validiert, Tabellenbezeichner stammen ausschließlich aus dieser Konfiguration.
+- Datenbank-Wiederherstellungspunkt vor Erweiterung: 00000026-00000000-00005127-5c5d0aa8951020f1323b3f9b6ce449f9. Der vorhandene tägliche Cron bereinigt jetzt beide Ereignistabellen nach 90 Tagen.
+- Geschützte Ansicht /statistik/?campaign=vivavoce mit QR-Code-Auswahl. Authentifiziert auf 390×844 und 1280×900 geprüft: kein horizontaler Überlauf, Tages-/Wochen-/Monatsdiagramm, Datumsfilter, leerer Zeitraum und Wechsel TSV↔VivaVoce erfolgreich.
+- Bei Erstprüfung VivaVoce 0/0, TSV 36/36. Beim Öffnen des Editors rief dessen zuvor gespeicherte TSV-Vorschau zweimal die echte QR-Adresse auf (20:10:55 MEZ). Diese beiden TSV-Testaufrufe bleiben enthalten; insgesamt zuvor 34→36. Vorschau wurde anschließend auf die Homepage umgestellt.
+- VivaVoce-GET-Funktionstest am 18.11.2026 20:13:52 MEZ: 302 zum richtigen Ziel, Ereignis vorhanden. Endstand VivaVoce 2/2 mit zwei Ereignissen (20:13:36 und 20:13:52 MEZ); ein Aufruf davon ist der dokumentierte Funktionstest. TSV bleibt beim VivaVoce-Test bei 36/36. Ein weiterer HEAD-Test um 20:14:51 erhöhte VivaVoce nicht. Keine Zähler nachträglich korrigiert.
+- Zehn lokale Tests bestanden, einschließlich isolierter SQL-Zähler und unveränderter TSV-Funktion.

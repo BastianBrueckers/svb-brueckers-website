@@ -33,3 +33,17 @@ test('configured authentication rejects forged assertions',async()=>{
  const env={ACCESS_ISSUER:'https://soft-waterfall-7e74.cloudflareaccess.com',ACCESS_AUD:'configured',ALLOWED_EMAILS:'mail@svb-brueckers.de'};
  for(const token of ['', 'forged', 'eyJhbGciOiJub25lIn0.eyJlbWFpbCI6Im1haWxAc3ZiLWJydWVja2Vycy5kZSJ9.'])assert.equal(await authorized(new Request('https://svb-brueckers.de/statistik/api',{headers:{'Cf-Access-Jwt-Assertion':token}}),env),false);
 });
+test('VivaVoce is isolated from TSV and starts with its own zero counters',async()=>{
+ const db=database();
+ db.sql.exec(readFileSync(new URL('../migrations/0002_vivavoce.sql',import.meta.url),'utf8'));
+ let vv=await statistics(db,{from:'2026-01-01',to:'2026-12-31'},undefined,'vivavoce');
+ assert.equal(vv.total.count,0);assert.equal(vv.dailySum,0);assert.equal(vv.events.length,0);assert.equal(vv.label,'VivaVoce');
+ await count(db,new Date('2026-11-18T19:00:00Z'),'vivavoce');
+ vv=await statistics(db,{from:'2026-11-18',to:'2026-11-18'},undefined,'vivavoce');
+ assert.equal(vv.total.count,1);assert.equal(vv.dailySum,1);assert.equal(vv.events.length,1);
+ const tsv=await statistics(db,{from:'2026-01-01',to:'2026-12-31'});
+ assert.equal(tsv.total.count,33);assert.equal(tsv.dailySum,32);assert.equal(tsv.events.length,0);
+ await assert.rejects(()=>statistics(db,{from:'2026-01-01',to:'2026-12-31'},undefined,'__proto__'));
+ await assert.rejects(()=>count(db,new Date(),'vivavoce; DROP TABLE qr_total'));
+ db.sql.close();
+});

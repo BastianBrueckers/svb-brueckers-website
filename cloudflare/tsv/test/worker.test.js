@@ -24,3 +24,13 @@ test('HEAD never counts; GET remains redirect even on database outage',async()=>
  const r=await worker.fetch(new Request('https://svb-brueckers.de/qrcode_tsv/'),env);assert.equal(r.status,302);assert.equal(calls,1);assert.match(r.headers.get('Location'),/utm_campaign=tsv/);
 });
 test('dashboard script parses',()=>{new Function(dashboard.js)});
+test('VivaVoce paths redirect with separate attribution; HEAD and unknown paths never count',async()=>{
+ let calls=0;const env={DB:{prepare(sql){return {sql,bind(...args){return {sql,args}}}},async batch(statements){calls++;assert.equal(statements.length,3);assert.ok(statements.every(s=>s.sql.includes('qr_vivavoce_')))}}};
+ for(const path of ['/qr_vivavoce','/qr_vivavoce/','/qr_vivavoce/index.html']){
+  const r=await worker.fetch(new Request('https://svb-brueckers.de'+path),env);assert.equal(r.status,302);assert.equal(r.headers.get('Location'),'https://svb-brueckers.de/?utm_source=qr_code&utm_medium=offline&utm_campaign=vivavoce');assert.match(r.headers.get('Cache-Control'),/no-store/);
+ }
+ assert.equal(calls,3);
+ assert.equal((await worker.fetch(new Request('https://svb-brueckers.de/qr_vivavoce',{method:'HEAD'}),env)).status,302);
+ assert.equal((await worker.fetch(new Request('https://svb-brueckers.de/qr_vivavoce/unknown'),env)).status,404);assert.equal(calls,3);
+ assert.equal((await worker.fetch(new Request('https://svb-brueckers.de/statistik/api?campaign=vivavoce'),{})).status,403);
+});

@@ -12,6 +12,10 @@
     {
       "pattern": "svb-brueckers.de/statistik*",
       "zone_name": "svb-brueckers.de"
+    },
+    {
+      "pattern": "svb-brueckers.de/qr_vivavoce*",
+      "zone_name": "svb-brueckers.de"
     }
   ],
   "d1_databases": [
