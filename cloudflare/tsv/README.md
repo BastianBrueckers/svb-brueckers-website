@@ -1,4 +1,4 @@
-# TSV-Statistik – vorbereitete Integration, NICHT veröffentlicht
+# TSV-Statistik – Cloudflare-Integration
 
 Ziel: https://svb-brueckers.de/statistik/; der bestehende Worker qrcode-tsv-redirect übernimmt geschützte HTML-, CSS-, JS- und API-Antworten. Keine Statistikdatei im öffentlichen Homepage-Verzeichnis. D1 ausschließlich über DB, keine öffentliche Datenbank-API.
 
@@ -12,7 +12,7 @@ Ziel: https://svb-brueckers.de/statistik/; der bestehende Worker qrcode-tsv-redi
 
 ## Freigabegrenze
 
-Erst nach ausdrücklicher Nutzerbestätigung Access, Routen, Migration, Cron und Worker-Veröffentlichung ausführen. Nutzerfreigabe zur Veröffentlichung am 18.11.2026 liegt vor. Noch offen: Access-Free-Aktivierung verlangt eine Zahlungsmethode und Zustimmung zu möglichen Mehrkosten; Nutzer muss diesen Abrechnungsschritt abschließen. Zugelassene E-Mail-Adresse noch bestätigen.
+Erst nach ausdrücklicher Nutzerbestätigung Access, Routen, Migration, Cron und Worker-Veröffentlichung ausführen. Nutzerfreigabe zur Veröffentlichung am 18.11.2026 liegt vor. Nutzer hat Access Free selbst aktiviert. Freigeschaltete Adresse: mail@svb-brueckers.de. Keine weiteren kostenpflichtigen Dienste aktiviert.
 
 ## Lokale Prüfung / spätere Veröffentlichung
 
@@ -32,3 +32,16 @@ Neue Zeitpunkte werden erst ab Migration erfasst, nur UUID + UTC-Zeitpunkt + Ber
 ## Abnahme nach Freigabe
 
 Ohne Anmeldung /statistik, /statistik/, Assets und API gesperrt; gefälschte/abgelaufene/falsche AUD-JWTs und fremde E-Mails abweisen, auch auf Alternativhosts. Mit erlaubter Anmeldung Ansicht und API erfolgreich. Einen gekennzeichneten realen QR-Test ausführen und DB vorher/nachher vergleichen: Gesamt +1, Tageswert +1, Ereignis +1, historische Differenz unverändert. HEAD +0. Produktionsprüfung nicht durch Testdaten-Backfill verfälschen. Handy und Desktop inklusive Filter, Tabellen, leere Zeiträume und Ereignis-Paginierung abnehmen.
+
+## Produktivstand 18.11.2026
+
+- Worker über bestehenden Cloudflare-Dashboardzugang veröffentlicht; aktive Codeversion 4b37adec. Vorherige Codeversion de1f8aff, anschließend reine Variablenänderung f5fc7b5e. Bestehende Bindung und das Kompatibilitätsdatum 2026-08-30 übernommen.
+- Access-App becb21ce-98ad-4f24-847c-979fcc90d1be schützt /statistik und /statistik/*; Allow-Richtlinie 3bb85cf6-aed7-4bdc-8a7f-dc126204e03f ausschließlich mail@svb-brueckers.de. E-Mail-Einmalcode eingerichtet. Zusätzliche JWT-Prüfung im Worker.
+- QR-Route unverändert; Statistikroute svb-brueckers.de/statistik* ergänzt, fail closed. workers.dev und Vorschau-URLs deaktiviert.
+- Additive Migration einzeln in D1 ausgeführt und Erfolg geprüft. Time-Travel-Ausgangspunkt: 00000023-00000000-00005127-ffb9a3f56f17abeeead4c6ef6d8650c6. Kein automatisches Restore durchführen, da dies spätere echte Aufrufe entfernen würde.
+- Täglicher Cron 17 3 * * * aktiv. Bereinigt ausschließlich Ereignisse älter als 90 Tage.
+- Genau ein kontrollierter GET-Test am 18.11.2026 um 18:59:34 MEZ: 302 zum unveränderten UTM-Ziel, Gesamt 33→34, Tageswerte 33→34, Ereignisse 0→1. Testaufruf bleibt enthalten. HEAD-Tests erhöhen nicht. Homepage HTTP 200. Statistik-API ohne Anmeldung leitet zu Access weiter.
+- Acht lokale Tests bestanden, inklusive echter SQLite-Transaktion mit Rollback und Cursor-Paginierung bei gleichen Zeitstempeln. Worker-Bundle erfolgreich gebaut.
+- Abschließender angemeldeter Mobil-/Desktoptest wartet auf erste E-Mail-Anmeldung des Nutzers.
+
+Die Konfiguration wrangler.production.jsonc enthält nur Bindungskennungen und öffentliche Anmeldeparameter, keine Zugangstoken oder Passwörter. Künftige CLI-Befehle explizit mit --config wrangler.production.jsonc ausführen und vor Änderungen den aktuellen Cloudflare-Stand abgleichen.
