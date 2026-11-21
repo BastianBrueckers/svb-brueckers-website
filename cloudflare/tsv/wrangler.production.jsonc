@@ -33,7 +33,8 @@
   "vars": {
     "ACCESS_ISSUER": "https://soft-waterfall-7e74.cloudflareaccess.com",
     "ACCESS_AUD": "af023432c560c115e70335627b5a4f67f900f78c3564e8d2375780bff716c8c8",
-    "ALLOWED_EMAILS": "mail@svb-brueckers.de"
+    "ALLOWED_EMAILS": "mail@svb-brueckers.de",
+    "PUBLIC_STATISTICS": "true"
   },
   "triggers": {
     "crons": [
