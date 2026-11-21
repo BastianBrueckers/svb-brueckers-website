@@ -41,3 +41,11 @@ test('website link uses referral attribution and its own event tables',async()=>
  assert.equal(batches,3);assert.equal((await worker.fetch(new Request(url,{method:'HEAD'}),env)).status,302);assert.equal(batches,3);
  assert.equal((await worker.fetch(new Request('https://svb-brueckers.de/statistik/api?campaign=vivavoce_web'),{})).status,403);
 });
+
+test('explicit public mode allows statistics without login and keeps API read-only',async()=>{
+ const env={PUBLIC_STATISTICS:'true'};
+ assert.equal((await worker.fetch(new Request('https://svb-brueckers.de/statistik/'),env)).status,200);
+ assert.equal((await worker.fetch(new Request('https://svb-brueckers.de/statistik/api',{method:'POST'}),env)).status,405);
+ assert.equal((await worker.fetch(new Request('https://svb-brueckers.de/statistik/api?campaign=unknown'),env)).status,400);
+ assert.equal((await worker.fetch(new Request('https://svb-brueckers.de/statistik/'),{PUBLIC_STATISTICS:'false'})).status,403);
+});
