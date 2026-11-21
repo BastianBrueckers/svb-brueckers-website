@@ -18,6 +18,7 @@ const keys = new Map();
 const headers = {'Cache-Control':'private, no-store','X-Content-Type-Options':'nosniff','Referrer-Policy':'no-referrer','X-Frame-Options':'DENY','Content-Security-Policy':"default-src 'none'; script-src 'self'; style-src 'self'; connect-src 'self'; base-uri 'none'; frame-ancestors 'none'; form-action 'self'"};
 const reply = (body,status=200,type='text/plain; charset=utf-8') => new Response(body,{status,headers:{...headers,'Content-Type':type}});
 export async function authorized(request, env) {
+  if (env.PUBLIC_STATISTICS === 'true') return true;
   if (!env.ACCESS_ISSUER || !env.ACCESS_AUD || !env.ALLOWED_EMAILS) return false;
   try {
     const issuer = env.ACCESS_ISSUER;
