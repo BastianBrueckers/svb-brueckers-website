@@ -1,7 +1,7 @@
 import { createRemoteJWKSet, jwtVerify } from 'jose';
 import { dashboard } from './dashboard.js';
 export const campaigns = Object.freeze({
-  tsv: { prefix: 'qr', label: 'TSV Heumaden', path: '/qrcode_tsv', metadata: 'events_started_at' },
+  tsv: { prefix: 'qr', label: 'TV Kemnat Bande/Eisspray', path: '/qrcode_tsv', metadata: 'events_started_at' },
   vivavoce: { prefix: 'qr_vivavoce', label: 'VivaVoce QR-Code', path: '/qr_vivavoce', metadata: 'vivavoce_events_started_at' },
   vivavoce_web: { prefix: 'click_vivavoce', label: 'VivaVoce Homepage', path: '/klick_vivavoce', metadata: 'vivavoce_web_events_started_at', source: 'vivavoce', medium: 'referral' }
 });
