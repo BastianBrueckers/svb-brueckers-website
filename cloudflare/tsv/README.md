@@ -67,3 +67,10 @@ Die Konfiguration wrangler.production.jsonc enthält nur Bindungskennungen und �
 - Angemeldete Ansicht mit neuer Quellenauswahl und Zeitstempel bei 390 und 1280 Pixeln geprüft; mobiler Seiteninhalt genau 390 Pixel breit ohne horizontalen Überlauf. API ohne Anmeldung weiterhin über Access geschützt.
 - Abschließend gemessene Zähler: TSV 36, VivaVoce QR 5, VivaVoce Homepage 1. Beim Öffnen des Cloudflare-Editors rief dessen automatisch ausgewählte Live-Vorschau erneut zweimal /qr_vivavoce auf (20:24:04 MEZ). Vorschau danach auf Homepage umgestellt. Keine Zähler manuell bereinigt.
 - Quellen weiterhin in PR #238 gespeichert; Zusammenführung in main bleibt mangels ausdrücklicher Merge-Freigabe ausstehend. Cloudflare-Veröffentlichung ist davon unabhängig abgeschlossen.
+
+
+## Öffentliche Statistik ab 21.11.2026
+
+Auf ausdrücklichen Nutzerwunsch und nach Bestätigung ist `/statistik/` einschließlich der lesenden Statistik-API öffentlich ohne E-Mail-Anmeldung erreichbar. Die frühere Forderung nach privatem Zugriff ist damit ersetzt. Cloudflare-Access-Richtlinie `3bb85cf6-aed7-4bdc-8a7f-dc126204e03f` wurde für die bestehende Statistik-Anwendung auf Bypass / Jeder umgestellt (Name: Statistik öffentlich ohne Anmeldung). Der Worker erlaubt öffentliche Statistik ausschließlich bei `PUBLIC_STATISTICS="true"`; ohne diese Einstellung bleibt die bisherige JWT-Prüfung aktiv. Zum Wiederherstellen des Schutzes müssen sowohl die Access-Regel als auch die Worker-Einstellung zurückgestellt werden.
+
+QR-Routen, DB-Bindung, Zählerlogik und Datenspeicherung sind unverändert. Bei der Cloudflare-Editor-Vorschau wurden zusätzliche Aufrufe des VivaVoce-Homepage-Links erzeugt; diese sind reale Testaufrufe und bleiben im Zähler enthalten. Abschließende Redirect-Prüfungen verwenden HEAD und erhöhen keine Zähler. Anonyme HTTP-Prüfungen bestätigten 200 für Seite und alle drei Statistikquellen sowie 302 für alle Weiterleitungen.
