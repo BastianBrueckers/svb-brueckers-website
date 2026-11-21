@@ -2,7 +2,7 @@ import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import {DatabaseSync} from 'node:sqlite';
 import {readFileSync} from 'node:fs';
-import {count,statistics,authorized} from '../src/worker.js';
+import {count,countHomepage,statistics,authorized} from '../src/worker.js';
 function database(){
  const sql=new DatabaseSync(':memory:');
  sql.exec('CREATE TABLE qr_daily(day TEXT PRIMARY KEY,count INTEGER NOT NULL); CREATE TABLE qr_total(id INTEGER PRIMARY KEY CHECK(id=1),count INTEGER NOT NULL,last_scan TEXT); INSERT INTO qr_total VALUES(1,33,NULL); INSERT INTO qr_daily VALUES(\'2026-11-15\',32);');
@@ -56,4 +56,19 @@ test('website referrals are independent of both QR campaigns',async()=>{
  assert.equal((await statistics(db,dates,undefined,'vivavoce')).total.count,1);
  assert.equal((await statistics(db,dates)).total.count,33);
  db.sql.close();
+});
+
+test('homepage counts sources by Berlin day, preserves QR data and stores no individual events',async()=>{
+ const db=database();db.sql.exec(readFileSync(new URL('../migrations/0004_homepage.sql',import.meta.url),'utf8'));
+ await countHomepage(db,'google',new Date('2026-11-21T23:30:00Z'));
+ await countHomepage(db,'direct',new Date('2026-11-22T01:00:00Z'));
+ await countHomepage(db,'other',new Date('2026-11-23T01:00:00Z'));
+ const d=await statistics(db,{from:'2026-11-22',to:'2026-11-22'},undefined,'homepage');
+ assert.equal(d.total.count,3);assert.equal(d.dailySum,3);assert.deepEqual(d.daily.map(x=>({...x})),[{day:'2026-11-22',count:2}]);
+ assert.deepEqual(d.sources.map(x=>({...x})),[{source:'direct',count:1},{source:'google',count:1}]);assert.equal(d.events.length,0);assert.equal(d.next,null);assert.ok(d.eventsStartedAt);
+ assert.equal((await statistics(db,{from:'2020-01-01',to:'2026-12-31'})).total.count,33);
+ await assert.rejects(()=>countHomepage(db,'https://google.de/'));
+ db.sql.exec("CREATE TRIGGER fail_home BEFORE UPDATE ON home_total BEGIN SELECT RAISE(ABORT,'test failure'); END;");
+ await assert.rejects(()=>countHomepage(db,'direct',new Date('2026-11-22T01:00:00Z')));
+ assert.equal(db.sql.prepare('SELECT SUM(count) AS n FROM home_daily').get().n,3);db.sql.close();
 });
