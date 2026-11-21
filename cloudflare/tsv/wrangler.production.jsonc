@@ -1,0 +1,45 @@
+{
+  "name": "qrcode-tsv-redirect",
+  "main": "src/worker.js",
+  "compatibility_date": "2026-08-30",
+  "workers_dev": false,
+  "preview_urls": false,
+  "routes": [
+    {
+      "pattern": "svb-brueckers.de/qrcode_tsv*",
+      "zone_name": "svb-brueckers.de"
+    },
+    {
+      "pattern": "svb-brueckers.de/statistik*",
+      "zone_name": "svb-brueckers.de"
+    },
+    {
+      "pattern": "svb-brueckers.de/qr_vivavoce*",
+      "zone_name": "svb-brueckers.de"
+    },
+    {
+      "pattern": "svb-brueckers.de/klick_vivavoce*",
+      "zone_name": "svb-brueckers.de"
+    }
+  ],
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "qrcode-tsv-counter",
+      "database_id": "e1039235-32c4-4068-a494-3b816b4e5cd9",
+      "migrations_dir": "migrations"
+    }
+  ],
+  "vars": {
+    "ACCESS_ISSUER": "https://soft-waterfall-7e74.cloudflareaccess.com",
+    "ACCESS_AUD": "af023432c560c115e70335627b5a4f67f900f78c3564e8d2375780bff716c8c8",
+    "ALLOWED_EMAILS": "mail@svb-brueckers.de",
+    "PUBLIC_STATISTICS": "true"
+  },
+  "triggers": {
+    "crons": [
+      "17 3 * * *"
+    ]
+  },
+  "account_id": "a7a357120062d6b98ebd0624071beacd"
+}
